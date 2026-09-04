@@ -32,6 +32,18 @@ else:
 # ------------------------------------------------------------------------------------------
 #       Else If
 #-------------------------------------------------------------------------------------------
+# Syntax
+# Elif
+if 2>3:
+  print("A") # Runs if condition_1 is True
+elif 5<4:
+  print("B") # Runs if condition_1 is False AND condition_2 is True
+elif 10>9:
+  print("C") # Runs if prior conditions are False AND condition_3 is True
+else :
+  print("D") # Runs if ALL conditions above are False
+
+# Practice
 if marks < 30:
     print("Low Marks")
 elif marks < 70:
