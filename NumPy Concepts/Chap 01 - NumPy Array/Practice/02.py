@@ -6,14 +6,14 @@ print("-----------------------1---------------------------")
 # Create a NumPy array
 # and calculate the price after applying a 15% discount to every product.
 
-import numpy as numpy
-productPrices = numpy.array([100, 250, 400, 550, 800])
+import numpy as np
+productPrices = np.array([100, 250, 400, 550, 800])
 print(productPrices)
 
 discount = 15                       # in percent
 discount = (100-discount)/100       # 0.85
 
-finalPrice = numpy.round((productPrices * discount)).astype(int).tolist()
+finalPrice = np.round((productPrices * discount)).astype(int).tolist()
 
 print("Original Prices :",productPrices)
 print("Final Prices in List format : ", finalPrice)
@@ -21,7 +21,7 @@ print("Final Prices in List format : ", finalPrice)
 # -----------------------------------------------------------------------------------------
 # Concept : Numpy Rounding and Convert Datatype
 # -----------------------------------------------------------------------------------------
-# numpy.round(Numpy Array)
+# np.round(Numpy Array)
 # (Numpy Array).astype(int/float/bool)
 # -----------------------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ print("-----------------------2---------------------------")
 # Convert the tuple into a NumPy array and add 3 marks to every value.
 
 studentMarks = (78, 85, 92, 67, 88)
-studentMarks = numpy.array(studentMarks)
+studentMarks = np.array(studentMarks)
 
 print("Previous Student Marks -> ", studentMarks.tolist())
 print("Updated(+3) Student Marks(List) -> ", (studentMarks + 3).tolist())
@@ -61,7 +61,7 @@ print("-----------------------3---------------------------")
 
 # Then calculate the additional sales expected in each quarter.
 
-year2024 = numpy.array([125000, 148000, 135000, 172000])
+year2024 = np.array([125000, 148000, 135000, 172000])
 year2025 = (year2024 * 1.15).astype(int)
 
 print("Year 2024 Sales -> ", year2024.tolist())
@@ -75,13 +75,13 @@ print("-----------------------4---------------------------")
 # Create this using NumPy.
 # Then create another 5 × 4 array containing a default value of 50.
 
-marks_table = numpy.zeros((5,4))
+marks_table = np.zeros((5,4))
 print(marks_table)
 
 print((marks_table + 50).astype(int))
 
 #OR,
-updated = numpy.full((5,4),50,dtype=int)
+updated = np.full((5,4),50,dtype=int)
 print(updated)
 
 
@@ -93,8 +93,8 @@ print("-----------------------4---------------------------")
 
 # Calculate the difference between actual and target.
 
-company_target = numpy.linspace(20000, 100000, 9)
-company_actual = numpy.array([18000, 28000, 39000, 47000, 57000, 66000, 76000, 90000, 105000])
+company_target = np.linspace(20000, 100000, 9)
+company_actual = np.array([18000, 28000, 39000, 47000, 57000, 66000, 76000, 90000, 105000])
 
 print("Targeted Sale ->", company_target)
 print("Actual Sale ->", company_actual)
@@ -106,7 +106,7 @@ print("-----------------------5---------------------------")
 # Question : 
 # A college stores marks of 4 students in 3 subjects: Maths, Science, and English.
 
-# import numpy as np
+# import np as np
 
 # marks = np.array([
 #     [72, 85, 90],
@@ -123,7 +123,7 @@ print("-----------------------5---------------------------")
 # Display the final marks array.
 # --------------------------------------------------------------------------------
 # Science marks of Second Student --> (1,1)
-marks = numpy.array([
+marks = np.array([
     [72, 85, 90],
     [65, 78, 82],
     [88, 91, 84],
@@ -158,7 +158,7 @@ print("-----------------------6---------------------------")
 # Display the updated sales array.
 # --------------------------------------------------------------------------------
 # Display the complete sales data of Branch 2.
-sales = numpy.array([
+sales = np.array([
     [120, 150, 180],
     [100, 130, 160],
     [200, 220, 250]
@@ -198,7 +198,7 @@ print("-----------------------7---------------------------")
 # Add 1 year of experience to the first employee.
 # Display the final employee array.
 # --------------------------------------------------------------------------------
-employees = numpy.array([
+employees = np.array([
     [30000, 2],
     [40000, 4],
     [50000, 6],
@@ -229,7 +229,7 @@ print("-----------------------8---------------------------")
 # 6. Display the final revenue array.
 # --------------------------------------------------------------------------------
 
-revenue = numpy.array([120000, 135000, 142000, 150000, 165000, 172000])
+revenue = np.array([120000, 135000, 142000, 150000, 165000, 172000])
 print("Revenue of 3rd Month ->", revenue[2])
 print("Revenue of last Month ->", revenue[-1])
 print("Revenue from Month 2-5 ->", revenue[1:5])
@@ -255,8 +255,8 @@ print("-----------------------9---------------------------")
 # Display the first 5 updated targets.
 # --------------------------------------------------------------------------------
 
-dayNum = numpy.arange(1,31)
-target = numpy.linspace(500,1500,30, dtype=int)
+dayNum = np.arange(1,31)
+target = np.linspace(500,1500,30, dtype=int)
 
 print("First 5 Target -> ", target[:5])
 print("Last 5 Target -> ", target[-5:])
@@ -266,14 +266,13 @@ target[:] = target[:] * 1.10
 
 print("First 5 Updated -> ", target[:5])
 
-import numpy as np
 
 print("-----------------------10---------------------------")
 
 # --------------------------------------------------------------------------------
 # A college records marks of 5 students in 4 subjects.
 
-marks = numpy.array([
+marks = np.array([
     [72, 85, 90, 78],
     [65, 70, 75, 80],
     [88, 92, 95, 90],
@@ -305,3 +304,122 @@ print("Increasing the marks of last 2 students in 4th sub by 5 ..")
 
 marks[-2: ,3] = marks[-2: ,3] + 5
 print("Updated Marks List ::: ", marks)
+
+print("-----------------------11---------------------------")
+
+# --------------------------------------------------------------------------------
+# A warehouse has 4 storage sections and 5 products.
+
+# Initially, every product has a stock level of 100 units.
+
+# Tasks
+# 1. Create a 4 x 5 array where every value is 100.
+# 2. Increase the stock of the first two sections by 20 units.
+# 3. Reduce stock of the last two products by 10%.
+# 4. Display only the middle two sections.
+# 5. Display the bottom-right 2 x 2 portion of the matrix.
+# --------------------------------------------------------------------------------
+
+warehouse = np.full((4,5), 100)
+warehouse[:2,:] = warehouse[:2,:] + 20
+warehouse[:,-2:] = warehouse[:,-2:] * 0.90
+
+print(warehouse)
+print(warehouse[1:3,:])
+print(warehouse[-2:,-2:])
+
+print("-----------------------12---------------------------")
+
+# --------------------------------------------------------------------------------
+# A startup expects its monthly users to grow from 10,000 to 100,000 over 12 months.
+
+# Tasks
+# 1. Generate monthly user targets using np.linspace().
+# 2. Create month numbers using np.arange().
+# 3. Display users expected in Month 1 and Month 12.
+# 4. Display users expected from Months 4-8.
+# 5. Increase all targets by another 15%.
+# 6. Display the updated targets for the last 4 months.
+# --------------------------------------------------------------------------------
+import numpy as np
+
+month = np.arange(1, 13)
+user_expected = np.linspace(10000, 100000, 12, dtype=int)
+
+print("Months:", month)
+print("Expected Users:", user_expected)
+
+print("Months 5 to 9 Expected Users:", user_expected[4:9])
+
+user_expected = (user_expected * 1.15).astype(int)
+
+startup = np.array([month.tolist(), user_expected.tolist()])
+
+print("Combined Startup Matrix:\n", startup)
+
+print("Updated Targets for Last 4 Months:", user_expected[-4:])
+
+
+print("-----------------------13---------------------------")
+
+# --------------------------------------------------------------------------------
+# A simple grayscale image can be represented as a 2D NumPy array 
+# where each number represents pixel intensity.
+
+image = np.array([
+    [10, 20, 30, 40, 50],
+    [20, 30, 40, 50, 60],
+    [30, 40, 50, 60, 70],
+    [40, 50, 60, 70, 80],
+    [50, 60, 70, 80, 90]
+])
+
+# Tasks:
+# 1. Find the dimensions of the image.
+# 2. Find its shape.
+# 3. Find the total number of pixels.
+# 4. Display the center pixel.
+# 5. Extract the top-left 3 × 3 region.
+# 6. Extract the bottom-right 2 × 2 region.
+# 7. Increase the intensity of the center 3 × 3 region by 20.
+# 8. Display the modified image.
+# --------------------------------------------------------------------------------
+print(image.ndim)
+print(image.shape)
+print(image.size)
+print(image[2,2])
+print(image[:4,:4])
+print(image[-2:,-2:])
+
+image[1:-1,1:-1] = image[1:-1,1:-1] + 20
+print(image)
+
+print("-----------------------14---------------------------")
+
+# --------------------------------------------------------------------------------
+# A classroom has 6 rows and 5 seats per row.
+# Initially, all seats are empty.
+#
+# 0 = Empty
+# 1 = Occupied
+#
+# Tasks:
+# 1. Create a 6 × 5 array filled with zeros.
+# 2. Mark the first seat of the first row as occupied.
+# 3. Mark all seats in the 3rd row as occupied.
+# 4. Mark the last two seats of the last row as occupied.
+# 5. Display the first 3 rows.
+# 6. Display the last 2 columns.
+# 7. Display the complete seating matrix.
+# --------------------------------------------------------------------------------
+
+classroom = np.zeros((6,5))
+classroom = np.full((6,5), 0)
+# Why am I taking full, because I want Integer; but np.zeros give decimal
+classroom[0,0] = 1
+classroom[2] = 1
+classroom[-1,-2:] = 1
+
+print(classroom)
+print(classroom[:2])
+print(classroom[:,-2:])
