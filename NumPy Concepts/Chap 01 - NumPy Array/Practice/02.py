@@ -193,8 +193,8 @@ print("-----------------------7---------------------------")
 # Perform the following:
 
 # Display the information of the last employee using negative indexing.
-# Display the salary of the second employee.
-# Increase the salary of the third employee by 15%.
+# Display the sales of the second employee.
+# Increase the sales of the third employee by 15%.
 # Add 1 year of experience to the first employee.
 # Display the final employee array.
 # --------------------------------------------------------------------------------
@@ -206,7 +206,7 @@ employees = np.array([
 ])
 print(employees[-1])    #last emmployee
 print("Salary of 2nd Employee :", employees[1,0])
-# Increase the salary
+# Increase the sales
 employees[2,0] = employees[2,0]*1.15
 employees[0,1] = employees[0,1]+1
 
@@ -459,15 +459,15 @@ print("-----------------------16---------------------------")
 # --------------------------------------------------------------------------------
 # Suppose a loan applicant must satisfy both:
 #
-# salary >= ₹50,000
+# sales >= ₹50,000
 # credit score >= 700
 #
 # Then approve, else reject.
 
-salary = np.array([60000, 40000, 75000, 55000, 30000])
+sales = np.array([60000, 40000, 75000, 55000, 30000])
 credit_score = np.array([720, 750, 680, 710, 800])
 # --------------------------------------------------------------------------------
-result = np.where((salary>=50000) & (credit_score>=700), "Approve", "Reject")
+result = np.where((sales>=50000) & (credit_score>=700), "Approve", "Reject")
 print(result)
 
 print("-----------------------17---------------------------")
@@ -524,7 +524,7 @@ print(grade)
 print("-----------------------18---------------------------")
 
 # --------------------------------------------------------------------------------
-# Question:
+# (VVI) Question:
 employees = np.array([
     [101, 35000, 2],
     [102, 48000, 4],
@@ -541,8 +541,127 @@ employees = np.array([
 # 1. Employees earning more than ₹50,000.
 # 2. Employees with more than 4 years of experience.
 # 3. Employees earning more than ₹50,000 AND having more than 4 years of experience.
-# 4. Average salary of employees satisfying condition 3.
-# 5. Employee with the highest salary.
-# 6. Employees earning below the median salary.
+# 4. Average sales of employees satisfying condition 3.
+# 5. Employee with the highest sales.
+# 6. Employees earning below the median sales.
 # --------------------------------------------------------------------------------
-print(np.where(employees))
+# 1. Employees earning more than ₹50,000.
+print(employees[:,1]>50000)         # Boolean Mask (True False True)
+print(employees[employees[:,1]>50000])  # Working Like 1D Array
+
+# 2. Employees with more than 4 years of experience.
+print(employees[:,2]>4)         
+print(employees[employees[:,2]>4])  
+
+# 3. Employees earning more than ₹50,000 AND having more than 4 years of experience.
+print((employees[:,1]>50000) & (employees[:,2]>4))       
+print(employees[(employees[:,1]>50000) & (employees[:,2]>4)])  
+
+# 4. Average sales of employees satisfying condition 3.
+condition3 = employees[(employees[:,1]>50000) & (employees[:,2]>4)]
+print(np.round(np.mean(condition3[1])))
+
+# 5. Employee with the highest sales.
+sales = employees[:,1]      # --> sales array
+index = np.argmax(sales)
+print(employees[index])
+
+# 6. Employees earning below the median sales.
+avg_sales = np.mean(employees[:,1])
+print("Average Sales -> ", avg_sales)
+print(employees[employees[:,1] > avg_sales])
+
+
+print("-----------------------19---------------------------")
+# --------------------------------------------------------------------------------
+# (VVI) Question : 
+employees = np.array([
+    [101, 45000, 120000],
+    [102, 60000, 180000],
+    [103, 35000, 90000],
+    [104, 75000, 250000],
+    [105, 50000, 160000]
+])
+
+# Columns:
+# Employee_ID | Salary | Sales
+
+# 1. Employees with sales >= ₹150,000 receive 5% commission, otherwise 2% commission.
+
+# 2. Sales > 200000 → Excellent,
+#    Sales >= 150000 → Good,
+#    Else → Improvement.
+# --------------------------------------------------------------------------------
+
+sales = employees[:,-1]
+print(sales)
+print(sales >= 150000)
+
+
+category = np.where(sales > 200000, "Excellent", np.where((sales > 150000), "Good", "Needs Improvement"))
+print(category)
+# print(empl)
+
+commission = np.where(sales>=150000, sales*0.05, sales*0.02)
+print(commission)
+
+# How to Change the actual array?
+employees[:,-1] = employees[:,-1] + commission
+print(employees)
+
+print("-----------------------20---------------------------")
+# --------------------------------------------------------------------------------
+# An e-commerce company records the quantity sold and selling price of 12 products.
+
+quantity = np.array([2, 5, 3, 8, 4, 6, 10, 1, 7, 5, 9, 3])
+
+price = np.array([
+    1200, 800, 1500, 450, 2200, 900,
+    700, 1800, 650, 1300, 500, 2500
+])
+# Find products whose revenue is above the average revenue.
+# Apply a 10% discount only to products whose price is greater than ₹1,000.
+# Round the discounted prices to two decimal places.
+# Identify products whose price is above the median and whose quantity is at least 5.
+# --------------------------------------------------------------------------------
+revenue = quantity * price
+print(revenue)
+avg_revenue = np.mean(revenue)
+print(avg_revenue)
+print(price[revenue>avg_revenue])
+
+# 10% Discount
+discounted_price = np.round(np.where(price>1000, 0.9*price, price),2)
+print(discounted_price)
+
+avg_product_price = np.mean(price)
+print(price[(price>avg_product_price) & (quantity>=5)])
+
+print("-----------------------21---------------------------")
+# --------------------------------------------------------------------------------
+# A company's monthly sales for one year are:
+sales = np.array([
+    120000, 135000, 128000, 150000,
+    160000, 172000, 165000, 180000,
+    195000, 210000, 205000, 225000
+])
+# Create a forecast for the next 6 months using np.linspace() between:
+# the minimum observed sales
+# and 20% above the maximum observed sales.
+
+# Round the forecast values to the nearest rupee.
+# Combine the original sales and forecast into one 18-element array.
+# Reshape the combined array into 3 × 6.
+# Calculate the average sales for each row.
+# --------------------------------------------------------------------------------
+min_sales = np.min(sales)
+max_sales = np.max(sales)
+forecast = np.round(np.linspace(min_sales, max_sales*1.20, 6))
+print(forecast)
+
+# Combine the original sales and forecast into one 18-element array.
+combined_sales = np.append(sales, forecast)
+print(combined_sales)
+reshaped_sales = combined_sales.reshape(3,6)
+print(reshaped_sales)
+print(np.round(np.mean(reshaped_sales, axis=1)))

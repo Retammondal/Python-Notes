@@ -101,3 +101,28 @@ print("Better measure for typical sales:", median)
                                # The unusually large sale (250000) pulls the mean 
                                # upward. Therefore, the median better represents a 
                                # typical sales day.
+
+print("----------------------5-----------------------")
+# --------------------------------------------------------------------------------------------
+# 5. The Axis Parameter
+# --------------------------------------------------------------------------------------------
+# When dealing with 2D data, aggregation functions like np.mean() or np.sum() 
+# will by default calculate a single number for the entire matrix. 
+# To calculate averages columnwise or, rowwise, you must specify an axis.
+    # axis = 0 --> Verticle Collapse : Columnwise Collapse
+    # axis = 1 --> Horizon. Collapse : Row-wise Collapse
+
+# 5 Students (Rows), 4 Subjects (Columns)
+marks = np.array([
+    [72, 85, 90, 78],
+    [65, 70, 96, 80],
+    [88, 92, 95, 90],
+    [55, 60, 58, 65],
+    [78, 82, 85, 88]
+])
+
+student_avg = np.mean(marks, axis=1)        # axis=1 calculates across the columns 
+                                            # -> Average for EACH Student
+student_avg = np.mean(marks, axis=1)        # axis=0 calculates down the rows
+                                            # -> Average for EACH Subject
+
