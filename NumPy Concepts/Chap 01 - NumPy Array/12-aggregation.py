@@ -61,7 +61,7 @@ print(max)                     # -50
 
 print("----------------------3-----------------------")
 # --------------------------------------------------------------------------------------------
-# 3. Find index of Max sales
+# 3. Find index of Max sales/ Min Sales
 # --------------------------------------------------------------------------------------------
 sales = np.array([100,200,300,500, 250,400,500])
 max_sales = np.max(sales)
@@ -73,6 +73,7 @@ for i in range(len(sales)):
 
 # Numpy Method
 print(np.argmax(sales))        # Drawback --> gives the First index of Max value of Given Array
+print(np.argmin(sales))        # Drawback --> gives the First index of Min value of Given Array
 
 
 print("----------------------4-----------------------")

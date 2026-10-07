@@ -423,3 +423,126 @@ classroom[-1,-2:] = 1
 print(classroom)
 print(classroom[:2])
 print(classroom[:,-2:])
+
+print("-----------------------15---------------------------")
+
+# --------------------------------------------------------------------------------
+# An electricity board records the monthly electricity consumption of a household for one year:
+
+consumption = np.array([
+    180, 220, 195, 250,
+    280, 310, 295, 270,
+    240, 210, 190, 230
+])
+
+# Perform the following:
+
+# 1. Find the total annual consumption.
+# 2. Calculate average monthly consumption.
+# 3. Find the highest and lowest consumption.
+# 4. Find the month index with the highest consumption.
+# 5. Extract the first 6 months using slicing.
+# 6. Extract alternate months.
+# 7. Find all months where consumption was greater than the annual average.
+# --------------------------------------------------------------------------------
+print("Total Annual Consumption:", np.sum(consumption))
+print("Avg Monthly Consumption:", np.mean(consumption))
+print("Max Monthly Consumption:", np.max(consumption))
+print("Min Monthly Consumption:", np.min(consumption))
+print("Max Consumption Month Index:", np.argmax(consumption))
+print("First 6 Month Data:", consumption[:7])
+print("Alternate Months:", consumption[::2])
+print("Months Consum>Avg:", consumption[consumption > np.mean(consumption)])
+
+
+print("-----------------------16---------------------------")
+# --------------------------------------------------------------------------------
+# Suppose a loan applicant must satisfy both:
+#
+# salary >= ₹50,000
+# credit score >= 700
+#
+# Then approve, else reject.
+
+salary = np.array([60000, 40000, 75000, 55000, 30000])
+credit_score = np.array([720, 750, 680, 710, 800])
+# --------------------------------------------------------------------------------
+result = np.where((salary>=50000) & (credit_score>=700), "Approve", "Reject")
+print(result)
+
+print("-----------------------17---------------------------")
+# --------------------------------------------------------------------------------
+# Suppose a customer receives free shipping if:
+#
+# order value >= ₹1,000
+#
+# OR
+#
+# customer is a premium customer.
+
+order_value = np.array([500, 1200, 700, 800, 1500])
+premium = np.array([False, False, True, False, True])
+# --------------------------------------------------------------------------------
+result = np.where((order_value>=1000) | (premium==True), "Yes", "No")
+result = np.where((order_value>=1000) | (premium), "Yes", "No")
+print(result)
+
+# -----------------------------------------------------------------------------------------
+# Concept : Boolean Varibles
+# -----------------------------------------------------------------------------------------
+# Rule of Thumb: Never use == True or == False when checking boolean variables. 
+# Just pass the variable itself (or ~variable for False).
+# -----------------------------------------------------------------------------------------
+
+print("-----------------------17---------------------------")
+# --------------------------------------------------------------------------------
+students = np.array([
+    [101, 78, 85, 92],
+    [102, 45, 55, 60],
+    [103, 91, 88, 95],
+    [104, 62, 70, 68],
+    [105, 35, 42, 50]
+])
+# Student_ID | Python | SQL | ML
+# Calculate average marks of each student
+
+# Let's classify students as:
+# Average >= 85 → Excellent
+# Average >= 60 → Good
+# Average >= 50 → Pass
+# Otherwise → Fail
+# --------------------------------------------------------------------------------
+
+students_marks = students[:,1:]
+avg_marks = np.mean(students_marks,axis=1)
+grade = np.where(avg_marks>=85, "Excellent", np.where(avg_marks>=60, "Good", np.where(avg_marks>=50, "Pass", "Fail")))
+print(students_marks)
+print(avg_marks)
+print(grade)
+
+
+print("-----------------------18---------------------------")
+
+# --------------------------------------------------------------------------------
+# Question:
+employees = np.array([
+    [101, 35000, 2],
+    [102, 48000, 4],
+    [103, 62000, 6],
+    [104, 40000, 3],
+    [105, 75000, 8],
+    [106, 55000, 5]
+])
+
+# Columns represent:
+# Employee ID | Salary | Experience
+
+# Find:
+# 1. Employees earning more than ₹50,000.
+# 2. Employees with more than 4 years of experience.
+# 3. Employees earning more than ₹50,000 AND having more than 4 years of experience.
+# 4. Average salary of employees satisfying condition 3.
+# 5. Employee with the highest salary.
+# 6. Employees earning below the median salary.
+# --------------------------------------------------------------------------------
+print(np.where(employees))
