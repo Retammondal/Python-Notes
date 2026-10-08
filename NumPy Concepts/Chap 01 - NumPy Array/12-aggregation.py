@@ -126,3 +126,22 @@ student_avg = np.mean(marks, axis=1)        # axis=1 calculates across the colum
 student_avg = np.mean(marks, axis=1)        # axis=0 calculates down the rows
                                             # -> Average for EACH Subject
 
+print("----------------------6-----------------------")
+# --------------------------------------------------------------------------------------------
+# 6. Variance vs Standard Deviation
+# --------------------------------------------------------------------------------------------
+# Variance and standard deviation both measure how spread out numbers are around a 
+# dataset's mean (average).
+# Mathematically : Variance = Square of 'Standard Deviation'
+#                : Variance = np.square(np.std(array))
+# NumPy Syntax   : Variance = np.var(array)
+
+data = np.array([2, 4, 4, 4, 5, 5, 7, 9])
+
+pop_var = np.var(data)         # --- Population Metrics  ---
+                               # Output: 4.0
+
+pop_std = np.std(data)         # Output: 2.0 (Square root of 4)
+
+print(pop_std)
+print(pop_var)

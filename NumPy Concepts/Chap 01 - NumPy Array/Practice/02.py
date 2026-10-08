@@ -665,3 +665,196 @@ print(combined_sales)
 reshaped_sales = combined_sales.reshape(3,6)
 print(reshaped_sales)
 print(np.round(np.mean(reshaped_sales, axis=1)))
+
+
+print("-----------------------22---------------------------")
+# --------------------------------------------------------------------------------
+# A factory collects temperatures from 20 sensor readings:
+
+temperature = np.array([
+    28.5, 31.2, 29.8, 35.6, 38.1,
+    40.2, 27.9, 30.5, 42.3, 39.8,
+    36.4, 33.2, 29.1, 41.7, 44.2,
+    31.8, 34.5, 37.6, 26.9, 43.1
+])
+
+# Calculate mean, median, minimum and maximum.
+# Calculate variance and standard deviation.
+# Find all temperatures more than standard deviation above the mean.
+# Find the five readings having the largest deviation from the mean. (Top 5 Waala Question..)
+# Find the number and percentage of critical readings(>=40).
+# Reshape the readings into a 4 × 5 array.
+# Find the average temperature for each row.
+# --------------------------------------------------------------------------------
+
+# --------------------------------------------------------------------------------
+# Concept :
+# Relation b/w Variance and Std => Square of std. is Variance
+# --------------------------------------------------------------------------------
+mean = np.mean(temperature)
+median = np.median(temperature)
+maximum = np.max(temperature)
+minimum = np.min(temperature)
+std = np.std(temperature)
+var = np.square(std)
+print("Mean", mean)
+print("Median", median)
+print("Maximum", maximum)
+print("Minimum",minimum)
+print("Standard Deviation", std)
+print("Variance", var)
+
+print(temperature[temperature> (std + mean)])
+
+deviation = np.abs(temperature - mean)
+largest_deviation = np.sort(deviation)      # By default give descending order
+print(largest_deviation)
+# To get Top 5 from largest_deviation --> We need to get Last 5 (As Descending Order)
+large5 = largest_deviation[-5:]         # will again give in back order [7.18 7.22 7.98 ]
+large5 = largest_deviation[-1:-5:-1]         # will again give in back order [7.18 7.22 7.98 ]
+print(large5)
+
+critical_readings = temperature[temperature>=40]
+print(critical_readings.size)
+print(critical_readings.size*100/temperature.size)
+
+
+print("-----------------------23---------------------------")
+# --------------------------------------------------------------------------------
+# Consider the following loan portfolio:
+
+loan_amount = np.array([
+    100000, 250000, 500000, 750000,
+    120000, 350000, 900000, 450000
+])
+interest_rate = np.array([
+    8.5, 9.2, 8.8, 10.1,
+    7.9, 9.5, 10.5, 8.7
+])
+# Categorize loans:
+# Rate >= 10 → High
+# Rate >= 9 → Medium
+# Otherwise → Low
+
+# Round interest to 2 decimal places.
+# Find median loan amount.
+# Find loans above median amount AND interest above average interest.
+# Calculate standard deviation of interest rates.
+# --------------------------------------------------------------------------------
+category = np.where(interest_rate>=10, "High", np.where(interest_rate>=9, "Medium", "Low"))
+print(category)
+
+median_amount = np.median(loan_amount)
+median_interest = np.median(interest_rate)
+print(median_amount)
+
+print(loan_amount[(loan_amount>median_amount) & (interest_rate>median_interest)])
+print(np.round(np.std(interest_rate),2))
+
+
+print("-----------------------24---------------------------")
+# --------------------------------------------------------------------------------
+# The coordinates of eight delivery locations are:
+points = np.array([
+    [3, 4],
+    [5, 12],
+    [8, 15],
+    [7, 24],
+    [9, 40],
+    [12, 35],
+    [15, 20],
+    [6, 8]
+])
+
+# Each row contains:
+# [x, y]
+# Calculate distance from the origin using:
+# distance = √(x² + y²)
+
+# Extract x and y coordinates.
+# Calculate distance for every location.
+# Round distances to 2 decimals.
+# Find nearest and farthest location.
+# Find average distance.
+# Find locations above average distance.
+
+# Categorize:
+# if >= 30 → Long
+# elif >= 15 → Medium
+# Otherwise → Short
+
+# Find percentage of Long-distance deliveries.
+# Flatten the coordinate array.
+# --------------------------------------------------------------------------------
+x_points = points[:,0]
+y_points = points[:,1]
+distance = np.round(np.sqrt(np.square(x_points) + np.square(y_points)),2)
+
+print(distance)
+print("Nearest :", np.min(distance))
+print("Farthest :", np.max(distance))
+
+print(np.mean(distance))
+print(points[distance>np.mean(distance)])
+
+category = np.where(distance>=30, "Long",np.where(distance>=15, "Medium", "Short"))
+print(category)
+
+long_dist_no = category[category == "Long"].size
+print(long_dist_no*100 / distance.size)
+
+print(points.flatten())
+
+
+print("-----------------------25---------------------------")
+# --------------------------------------------------------------------------------
+# (VVI) Question : 
+patient = np.array([
+    [101, 120, 85, 98],
+    [102, 135, 92, 96],
+    [103, 110, 78, 99],
+    [104, 150, 88, 94],
+    [105, 125, 95, 97],
+    [106, 160, 82, 93],
+    [107, 115, 90, 98],
+    [108, 145, 87, 95],
+    [109, 130, 91, 96],
+    [110, 155, 80, 92]
+])
+# Patient_ID, Heart_Rate, Oxygen_Level, Recovery_Score
+
+# Calculate average heart rate.
+# Calculate median oxygen level.
+# Find patients with heart rate above average AND oxygen below 90.
+
+# Categorize recovery:
+# >= 97 → Excellent
+# >= 95 → Stable
+# Otherwise → Monitor
+
+# Count each category.(***)
+# Find patient with highest heart rate.
+# Find oxygen levels more than 1 standard deviation below the mean.
+# --------------------------------------------------------------------------------
+patient_id = patient[:,0]
+heart_rate = patient[:,1]
+oxygen_level = patient[:,2]
+recovery = patient[:,3]
+
+print(np.mean(heart_rate))
+print(np.median(oxygen_level))
+print(patient[(heart_rate>np.mean(heart_rate)) & (oxygen_level<90)])
+
+category = np.where(recovery>=97,"Excellent", np.where(recovery>=95,"Stable", "Monitor"))
+print(category)
+
+# Count each category.
+print(category == "Excellent")          # Result in [True False  True False]
+print(np.sum(category == "Excellent"))  # Total Sum where True is present
+print(np.sum(category == "Stable"))
+print(np.sum(category == "Monitor"))
+
+print(patient[np.argmax(heart_rate)])
+print(oxygen_level[oxygen_level> (np.mean(oxygen_level) - np.std(oxygen_level))])
+# --------------------------------------------------------------------------------
+
