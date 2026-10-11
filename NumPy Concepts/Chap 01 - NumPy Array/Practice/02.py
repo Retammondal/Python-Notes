@@ -858,3 +858,46 @@ print(patient[np.argmax(heart_rate)])
 print(oxygen_level[oxygen_level> (np.mean(oxygen_level) - np.std(oxygen_level))])
 # --------------------------------------------------------------------------------
 
+
+print("-----------------------26---------------------------")
+# --------------------------------------------------------------------------------
+# (VVI) Question : 
+# Consider the following daily prices:
+
+prices = np.array([
+    820, 835, 810, 850, 875,
+    860, 890, 910, 895, 930,
+    945, 920, 960, 975, 990
+])
+
+# *** Calculate the change between consecutive days.
+# Calculate absolute price movement.
+# Find movements above average.
+# Calculate percentage change between consecutive days.
+# Round percentage changes to 2 decimals.
+# Find range of Price movement.
+# --------------------------------------------------------------------------------
+
+# ------------------------------------
+# CONCEPT : Range Finding = Max - Min
+# ------------------------------------
+
+# Calculate the change between consecutive days.
+a = prices[1:]              # will give all except 1st one ==> Next
+b = prices[:-1]             # will give alll except last one ==> Previous
+
+consecutiveValue = a - b    # Next - Previous
+print(consecutiveValue)
+
+# Calculate absolute price movement.
+print(np.abs(consecutiveValue))
+
+condition = consecutiveValue > np.mean(consecutiveValue)
+print(consecutiveValue[condition])
+
+perChange = np.round((consecutiveValue / b )*100,2)
+print(perChange)
+
+range = np.max(consecutiveValue) - np.min(consecutiveValue)
+print(range)
+

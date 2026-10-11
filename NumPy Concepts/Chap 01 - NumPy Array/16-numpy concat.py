@@ -103,3 +103,62 @@ print(np.concatenate((a, b), axis=None))
 # axis=0 (Adding rows)      : Number of columns must be exactly the same.
 # axis=1 (Adding columns)   : Number of rows must be exactly the same.
 # axis=None (Flattening)    : Shape doesn't matter.
+
+
+print("----------------------4-----------------------")
+# --------------------------------------------------------------------------------------------
+# 4. Stacking Arrays (Another Version of axis = 0/1)
+# --------------------------------------------------------------------------------------------
+# np.vstack() Vertically Stacks the Arrays (acts like axis = 0)
+# np.hstack() Horizontally Stacks the Arrays (acts like axis = 1)
+
+# print(np.vstack((a,b)))               # Vertically Stacks the Arrays (axis = 0) (Requires 
+# print(np.hstack((a,b)))               # previous definition of 2D arrays 'a' and 'b')
+
+jan_sales = np.array([70, 80, 90])
+feb_sales = np.array([65, 75, 85])
+mar_sales = np.array([88, 92, 95])
+
+overall_sales = np.vstack((jan_sales, feb_sales, mar_sales))
+                                        # Usecase Example of VStack: Stack multiple 1D arrays
+print(overall_sales)                    # into a single 2D matrix (each array becomes a row)
+
+
+print("----------------------5-----------------------")
+# --------------------------------------------------------------------------------------------
+# 5. np.column_stack() --> Combining 1D Arrays into Columns
+# --------------------------------------------------------------------------------------------
+# numpy.column_stack() --> Turns 1D Arrays into columns to make a 2-D array 
+# (Combines side-by-side).
+
+# For 2-D Arrays no special use --> acts exactly like np.hstack.
+# np.row_stack() --> also exists, but acts exactly like np.vstack.
+
+# ----------------------------------------------------------------------------
+# Question: Make a Numpy Array where ids, salary, and experience will be columns.
+ids = np.array([101, 102, 103])
+salary = np.array([50000, 65000, 72000])
+experience = np.array([3, 5, 7])
+# ----------------------------------------------------------------------------
+
+# Method 1 - Normal Zindaagi: Reshape 1D to 2D column
+idsReshape = ids.reshape(-1,1)  
+salaryReshape = salary.reshape(-1,1)         
+experienceReshape = experience.reshape(-1,1)    
+
+employeeDetails = np.hstack((idsReshape, salaryReshape, experienceReshape))
+print(employeeDetails)                  # Horizontally stack the reshaped column vectors
+
+print(np.column_stack((ids, salary, experience)))
+
+# Method 2- Mentos Zindagi: np.column_stack automatically 
+# treats 1D arrays as columns and stacks them.
+
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
+result = np.column_stack((a, b))
+print(result)                  # Output:
+                               # [[1 4]
+                               #  [2 5]
+                               #  [3 6]]
