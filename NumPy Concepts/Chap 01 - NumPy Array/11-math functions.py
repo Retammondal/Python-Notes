@@ -86,3 +86,25 @@ print(np.floor(values))        # Give the integer part only? But the problem is
 
 print(np.trunc(values))        # (np.trunc solves this by just chopping off 
                                # the decimals entirely!)
+
+print("----------------------5-----------------------")
+# --------------------------------------------------------------------------------------------
+# 4. Some Additional
+# --------------------------------------------------------------------------------------------
+array = np.array([10,20,30,40,50,60,70,80,90,100])
+
+# i. Exponential Function (np.exp)
+# Calculates Euler's number (e ≈ 2.718) raised to the power of each element (e^x).
+# Result: [e^10, e^20, e^30...] (Note: These evaluate to very large numbers).
+print("Exponential:\n", np.exp(array))
+
+# ii. Natural Logarithm (np.log)
+# Calculates the natural logarithm (base 'e') of each element.
+# This answers the question: "e raised to what power equals this number?"
+print("Natural Log:\n", np.log(array))
+
+# iii. Base-10 Logarithm (np.log10)
+# Calculates the standard base-10 logarithm of each element.
+# For the first element (10), since 10^1 = 10, the output will be exactly 1.
+print("Base-10 Log:\n", np.log10(array))
+

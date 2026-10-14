@@ -959,6 +959,15 @@ orders = np.array([
 
 # Calculate revenue for every order.
 # Find the order with highest revenue
+# Find orders where quantity >= 5 AND rating >= 4.5.
+# Give 10% discount to products whose price is above ₹1,000.
+# Find 25th and 75th percentile of price.
+# Find prices above the 75th percentile.
+# Find percentage of orders with rating >= 4.5.
+# Reshape revenue into 3 x 4.
+# Calculate average revenue of each row.
+# Flatten the revenue array.
+# Calculate total revenue from orders having rating >= 4.5 AND revenue above average.
 # --------------------------------------------------------------------------------
 # Revenue
 quantity = orders[:,1]
@@ -966,3 +975,60 @@ price = orders[:,2]
 revenue = quantity * price
 print(revenue)
 print(orders[np.argmax(revenue)])
+print(orders[(orders[:,1]>5) & (orders[:,3]>4)])
+discount = np.round(np.where(price>1000, price*0.10, 0))
+print(price)
+print(discount)
+# changing orders table with discount
+price = price-discount
+print(orders)
+# percentile
+print(np.percentile(price,[25,75]))
+
+print("----------------------5-----------------------")
+# --------------------------------------------------------------------------------------------
+# (VVI)Practice Question : 
+# --------------------------------------------------------------------------------------------
+# Task: create a dataset having the following columns:
+
+# order_id, --> generate sequence of 20 ids
+# quantity, --> 1-10 quantity
+# unit_price,
+# discount,
+# rating
+
+# with 20 rows
+# Find ordervalue after discount for each order
+# --------------------------------------------------------------------------------------------
+np.set_printoptions(suppress=True)
+
+np.random.seed(100)
+order_id = np.arange(101,121)          # Need to change in float due to all same
+quantity = np.random.randint(1,11,20)
+unit_price = np.random.randint(500,2000,20)
+discount = np.round(np.random.uniform(0,10,20),2)
+rating = np.round(np.random.uniform(0,5,20),1)
+
+# Now we have to do Column Stack...
+final_arr = np.column_stack((order_id,quantity,unit_price,discount,rating))
+print(final_arr)
+
+# I am choosing the hardest way to practice concepts also
+orderValue = (final_arr[:,1] * final_arr[:,2])
+netorderValue = np.round((orderValue * (100-(final_arr[:,3])))/100)
+print(orderValue)
+print(netorderValue)
+
+# --------------------------------------------------------------------------------
+# Concept : NumPy Scientific Notation (e+02 / e-01)
+# 
+# Why it happens: Mixed big numbers (1955.0) and small decimals (0.7) force
+# NumPy to use exponential notation so terminal columns stay perfectly aligned.
+#
+# How to read it:
+# - 1.090e+02  => Move decimal 2 places RIGHT  => 109.0
+# - 7.000e-01  => Move decimal 1 place LEFT   => 0.7
+#
+# How to fix it:
+# Add `np.set_printoptions(suppress=True)` to force normal human-readable numbers.
+# --------------------------------------------------------------------------------
