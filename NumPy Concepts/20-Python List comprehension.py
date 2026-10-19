@@ -79,3 +79,54 @@ categories = [                 # Note : Here 'elif' will not work, but we can wr
     for mark in marks
 ]
 print(categories)
+
+print("----------------------5-----------------------")
+# --------------------------------------------------------------------------------------------
+# 5. Nested List Comprehension
+# --------------------------------------------------------------------------------------------
+# Multiple for loops inside a single bracket notation; Evaluated Left --> Right.
+# Syntax : pairs = [(x, y) for x in [List1] for y in [List2]]
+
+# -----------------------------------------------------
+# Question : Give all the possible pairs out of these?
+numbers1 = [1,2,3]
+numbers2 = [10,20]
+
+pair = []                      
+for i in numbers1:             # Aam Zindagii
+    for j in numbers2:
+        pair.append((i,j))
+print(pair)
+
+pair = [(item1,item2) for item2 in numbers2 for item1 in numbers1]
+print(pair)                    # Mentos Zindagi : How to do it with List Comprehension?
+
+# -----------------------------------------------------
+# Question : Make it flattern with use of list comprehension ?
+# Extract only passing marks from every row >= 75
+# and increase by 5 if they passed?
+marks = [                      
+    [75, 80, 90],              
+    [60, 85, 70],
+    [95, 88, 92]
+]
+
+flat_marks = []                # Normal Method
+for row in marks:
+    for elem in row:
+        flat_marks.append(elem)
+print(flat_marks)
+
+flat_marks = [                 # Mentos ZIndaagi
+    elem 
+    for row in marks 
+    for elem in row
+]
+print(flat_marks)              # Always remember list comprehension will go 
+                               # from left -> right
+
+pass_marks = [elem for row in marks for elem in row if elem>=75]
+pass_increased_marks = [elem+5 for row in marks for elem in row if elem>=75]
+
+print(pass_marks)              
+print(pass_increased_marks)    
