@@ -204,12 +204,12 @@ print("----------------------15-----------------------")
 # --------------------------------------------------------------------------------------------
 # Convert full names into lowercase usernames by joining
 # the first and last names with a dot.
+# --------------------------------------------------------------------------------------------
 
 names = [
     "Aman Sharma",
     "Riya Verma",
     "Karan Patel"
 ]
-# --------------------------------------------------------------------------------------------
 updated_name = [".".join(text.lower().split(" ")) for text in names]
 print(updated_name)
