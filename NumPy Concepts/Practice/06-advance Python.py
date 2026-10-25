@@ -499,3 +499,57 @@ print(merge_sort(arr1, arr2))
 #           ▼
 #      [Exit Loop]
 # -----------------------------------------------------------------------------------------
+
+
+print("----------------------7-----------------------")
+# --------------------------------------------------------------------------------------------
+# Check Sorted List Problem :
+# Given a list of integers, determine whether the list is sorted in ascending order.
+# Do not use sort() or sorted().
+# Input: [10, 20, 30, 40]
+# Output: Sorted
+# Input: [10, 30, 20, 40]
+# Output: Not Sorted
+# --------------------------------------------------------------------------------------------
+
+# Method 1:
+def sort_check(list):
+    check_list = float('-inf')
+    for i in list:
+        if i>=check_list:
+            check_list=i
+        else:
+            return 'Not Sorted'
+    return 'Sorted'
+print(sort_check([10,20,30,40]))
+print(sort_check([10,20,30,50,40]))
+
+# Method 2:
+def sort_check(list_given):
+    n = len(list_given)
+    flag = 0
+    for i in range(n-1):
+        if list_given[i]>list_given[i+1]:
+            flag = 1
+            break
+    if flag==1:
+        return "Not Sorted"
+    else:
+        return "Sorted"
+print(sort_check([10,20,30,40]))
+print(sort_check([10,20,30,50,40]))
+
+
+# ============ CHECK SORTED LIST ============
+
+# METHOD 1: Previous Value Tracking
+# Logic: Compare each element with the previous maximum.
+# Uses -inf as the initial value.
+# Time: O(n) | Space: O(1)
+# Good for understanding tracking techniques.
+
+# METHOD 2: Adjacent Element Comparison
+# Logic: Compare arr[i] with arr[i+1].
+# If arr[i] > arr[i+1], return "Not Sorted".
+# Time: O(n) | Space: O(1)
+# Simpler and more intuitive for interviews.
