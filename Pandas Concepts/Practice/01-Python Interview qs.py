@@ -250,3 +250,32 @@ for i in array:
                 longest = length
 print(longest)
 
+print("----------------------10-----------------------")
+# --------------------------------------------------------------------------------------------
+# (VVI)
+# Find the Minimum Length Subarray with Sum at Least S
+# Problem statement: Given an array of positive integers and a target S,
+# find the minimum length of a contiguous subarray whose sum is at least S.
+# Print 0 if no such subarray exists.
+# Example: [2, 3, 1, 2, 4, 3], S = 7
+# Output : [4,3] --> 2
+# --------------------------------------------------------------------------------------------
+min_length = float('inf')
+# Why ? whenever we need minimum we will initialize with maximum possible value...easy for later
+# Why ? whenever we need maximum we will initialize with minimum possible value...easy for later
+
+array = [2, 3, 1, 2, 4, 3]
+S = 7
+
+for i in range(len(array)):
+    total = 0
+    for j in range(i,len(array)):
+        total = total + array[j]
+
+        if total >= S:
+            length = j - i + 1
+            if length < min_length:
+                min_length = length
+                break
+
+print(length)

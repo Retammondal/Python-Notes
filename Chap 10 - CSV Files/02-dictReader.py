@@ -19,7 +19,9 @@ with open("Chap 10 - CSV Files/students.csv", "r", newline="", encoding="utf-8")
     next(reader)        # skip the header ❌ skip the first data row
 
     for row in reader:
+        print(row)
         print(row["name"], row["marks"])
+
 
 # ==================================================
 # IMPORTANT: reader() vs DictReader()
