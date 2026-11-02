@@ -69,3 +69,42 @@ print("Name" in data.columns)           # Check with 'in' operator even though d
 
 data.columns = ["MyName", "Age", "Living"]
 print(data)                             # Change the names of columns by reassigning
+
+
+print("----------------------4-----------------------")
+# --------------------------------------------------------------------------------------------
+# 4. DataFrame Attributes & Column Selection
+# --------------------------------------------------------------------------------------------
+# df.columns            --> Iterator List of all Columns
+# df.index              --> Iterator List of all Indexes
+# df["Column-Name"]     --> Gives Series of that DataFrame Column -- No Header
+# df[["Column", "Column"]]  --> Gives DataFrame of those Columns
+
+data = {
+    "Student_ID": [101, 102, 103, 104, 105, 106, 107, 108],
+    "Name": ["Amit", "Priya", "Rahul", "Sneha", "Karan", "Neha", "Rohit", "Pooja"],
+    "Branch": ["CSE", "ECE", "CSE", "IT", "ME", "CSE", "ECE", "IT"],
+    "Age": [18, 19, 18, 20, 19, 18, 21, 19],
+    "Marks": [78, 92, 65, 88, 45, 95, 56, 72],
+    "Attendance": [85, 95, 70, 90, 60, 98, 75, 82]
+}
+
+df = pd.DataFrame(data)
+
+print(df)   
+print(df.columns)              # Attributes: List out all the columns in list
+print(df.index)                # List out all the Indexes 
+
+print(df["Name"])              # Getting the Name Column in form of Series --> No Header
+
+print(df.Name)                 # Getting the Name Column in form of Series --> No Header 
+                               # -- This syntax is not Preferred; b/c if column name 
+                               # has space it will fail
+
+print(df[["Name"]])            # Getting the Name in form of Dataframe --> has Header
+
+
+# print(df["Name", "Age"])     # Want Name, Age Column from the DataFrame? 
+                               # -- not valid, a series can't have 2 columns we know
+
+print(df[["Name", "Age"]])     # -- it's not a series anymore, it's DataFrame

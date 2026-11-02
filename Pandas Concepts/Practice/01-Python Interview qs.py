@@ -279,3 +279,350 @@ for i in range(len(array)):
                 break
 
 print(length)
+
+print("----------------------11-----------------------")
+# ========== MAXIMUM PRODUCT OF TWO ELEMENTS ==========
+# * VVI
+# --------------------------------------------------------------------------------------------
+# Find the Maximum Product of Two Elements
+# Problem statement:
+# Find the maximum product obtainable by multiplying two elements at different indices.
+# The array may contain positive and negative integers.
+# Example: [-10, -3, 5, 6, -2]
+# --------------------------------------------------------------------------------------------
+
+array = [-10, -3, 5, 6, -2]
+
+
+# METHOD 1: Brute Force (Direct Comparison)
+# Logic: Multiply every element with every other element.
+# Problem: Checks the same pair twice (a*b and b*a).
+# Time: O(n²) | Space: O(n) for storing pairs.
+# Best for: Understanding brute-force logic.
+
+max_product = float('-inf')
+products = []
+
+for i in range(len(array)):
+    for j in range(len(array)):
+        if i != j:
+            prod = array[i] * array[j]
+            if prod > max_product:
+                max_product = prod
+                products.append((array[i], array[j]))
+
+print(max_product)
+
+# -----------------------------------------------------------
+# METHOD 2: Optimized Brute Force (Index Comparison)
+# Logic: Start j from i+1 to avoid duplicate pairs.
+# Every pair is checked exactly once.
+# Time: O(n²) | Space: O(1)
+# Best for: Avoiding unnecessary comparisons.
+
+max_product = float('-inf')
+
+for i in range(len(array)):
+    for j in range(i+1, len(array)):
+        prod = array[i] * array[j]
+        if prod > max_product:
+            max_product = prod
+
+print(max_product)
+
+
+# -----------------------------------------------------------
+# * VVI
+# METHOD 3: Tracking Two Largest and Two Smallest
+# Logic: Track the two largest and two smallest numbers.
+# Two negative numbers can also produce the maximum positive product.
+# max1, max2 = Two largest numbers.
+# min1, min2 = Two smallest numbers.
+# Time: O(n) | Space: O(1)
+# Best for: Optimal algorithmic solution (Single Pass).
+
+max1 = max2 = float('-inf')
+min1 = min2 = float('inf')
+
+for x in array:
+    # --- Tracking the Top 2 Largest Values ---
+    # If x is greater than our current largest value
+    if x > max1:
+        max2 = max1       # Old largest shifts to second largest
+        max1 = x          # Update the new largest value
+    # If x is smaller than max1 but greater than our 2nd largest
+    elif x > max2:
+        max2 = x          # Update the new second largest value
+
+    # --- Tracking the Top 2 Smallest Values ---
+    # If x is smaller than our current smallest value
+    if x < min1:
+        min2 = min1       # Old smallest shifts to second smallest
+        min1 = x          # Update the new smallest value
+    # If x is greater than min1 but smaller than our 2nd smallest
+    elif x < min2:
+        min2 = x          # Update the new second smallest value
+
+
+max_product = max(max1 * max2, min1 * min2)
+print(max_product)
+
+
+# -----------------------------------------------------------
+# METHOD 4: Sorting Approach
+# Logic: Sort the array in ascending order.
+# Maximum product = max(product of first two, last two).
+# Why? Two smallest negatives or two largest positives
+# can produce the maximum product.
+# Time: O(n log n) | Space: O(1) auxiliary space*
+# Best for: Simple implementation using sorting.
+
+array.sort()
+
+first_two_prod = array[0] * array[1]
+last_two_prod = array[-1] * array[-2]
+
+max_product = max(first_two_prod, last_two_prod)
+print(max_product)
+
+
+# ========== CONCLUSION ==========
+
+# Method 1: Checks duplicate pairs unnecessarily.
+# Method 2: Checks each pair only once.
+# Method 3: Tracks extreme values without sorting.
+# Method 4: Sorts the array and compares extreme pairs.
+
+# Method 1 & 2: O(n²) time.u
+# Method 3: O(n) time | O(1) space.
+# Method 4: O(n log n) time.
+
+# Method 3 is the most time-efficient.
+# Method 4 is simpler but requires sorting.
+
+# IMPORTANT:
+# At least two elements are required.
+# Method 4 modifies the original array.
+# *Sorting space complexity depends on Python's sorting implementation.
+
+print("----------------------12-----------------------")
+# --------------------------------------------------------------------------------------------
+# *? VVI
+# ========== MINIMUM ABSOLUTE SUM OF TWO ELEMENTS ==========
+# Find the Minimum Absolute Sum of Two Elements
+# Problem statement: Find two elements at different indices whose sum has the smallest absolute value.
+# Example: [-8, 4, 5, -2, 10]
+# --------------------------------------------------------------------------------------------
+
+array = [-8, 4, 0, 5, -2, 10]
+
+
+# METHOD 1: Brute Force (Nested Loops)
+# Logic: Check every unique pair and calculate absolute sum.
+# Update minimum whenever a smaller absolute sum is found.
+# Time: O(n²) | Space: O(1)
+# Best for: Understanding the problem and checking all pairs.
+
+min_sum = float('inf')
+
+for i in range(len(array)):
+    for j in range(i+1, len(array)):
+        abs_sum = abs(array[i] + array[j])
+        if abs_sum < min_sum:
+            min_sum = abs_sum
+
+print(min_sum)
+
+# --------------------------------------------------------------
+# *! METHOD 2: Sorting + Two Pointers
+# Logic: Sort the array first.
+# Use left and right pointers at opposite ends.
+# If sum is positive, move right pointer left.
+# If sum is negative, move left pointer right.
+# If sum is zero, we have the minimum possible answer.
+# Time: O(n log n) | Space: O(1) auxiliary*
+# Best for: Efficient solution using Two Pointers.
+
+
+
+# Step 1: Sort the array in non-decreasing order.
+# Sorting enables a greedy two-pointer strategy because values on the left
+# are smaller (more negative/less positive) and values on the right are larger.
+# Time Complexity: O(n log n)
+array.sort()
+
+# Step 2: Initialize two pointers at opposite extremes.
+left = 0                  # Points to the smallest available element
+right = len(array) - 1    # Points to the largest available element
+
+# min_sum tracks the smallest absolute difference from 0 encountered so far.
+min_sum = float('inf')
+
+# Step 3: Shrink the window inward until the two pointers meet.
+while left < right:
+    # Calculate the algebraic sum of the current pair.
+    current_sum = array[left] + array[right]
+
+    # Update min_sum with the magnitude (absolute value) of current_sum.
+    # Closest to zero means minimizing abs(current_sum).
+    min_sum = min(min_sum, abs(current_sum))
+
+    # Step 4: Decide which pointer to move based on the direction of current_sum.
+    if current_sum > 0:
+        # The sum is too positive. To pull the sum closer to 0,
+        # decrease the larger value by moving the right pointer inward.
+        right -= 1
+
+    elif current_sum < 0:
+        # The sum is too negative. To push the sum closer to 0,
+        # increase the smaller value by moving the left pointer inward.
+        left += 1
+
+    else:
+        # current_sum == 0 is the theoretical minimum absolute sum possible.
+        # No further pair can beat 0, so exit early.
+        min_sum = 0
+        break
+
+# Step 5: Output the result.
+print(min_sum)
+
+# ========== CONCLUSION ==========
+
+# Method 1: Checks every possible pair.
+# Method 2: Uses sorting + Two Pointers.
+# Method 1: O(n²) time | O(1) space.
+# Method 2: O(n log n) time | O(1) auxiliary space*.
+
+# Method 1: Simple but slower for large arrays.
+# Method 2: More efficient for large arrays.
+# Important: At least two elements are required.
+# *Python sorting uses additional internal memory.
+
+
+# ! Case Thinking -- Wrong
+# all are positive --> lowest 2 ka sum
+# all are negative --> highest 2 ka sum
+# positive + negative --> lowest 2 ka sum > 0 , highest 2ka sum<0 , max+ min 
+
+# Why? one positive and one negative sum absolute can be include..
+
+print("----------------------13-----------------------")
+# --------------------------------------------------------------------------------------------
+# Find the Number of Triplets with a Given Sum
+# Problem statement: Count all triplets at three distinct indices whose sum equals a target value.
+# Example: [1, 2, 3, 4, 5], target 9
+# Output:
+# --------------------------------------------------------------------------------------------
+array = [1, 2, 3, 4, 5]
+target = 9
+triplet = []
+length = len(array)
+for i in range(length):
+    for j in range(i+1,length):
+        for z in range(j+1,length):
+            sum = array[i] + array[j] + array[z]
+            if sum == target:
+                triplet.append((i,j,z))
+print(triplet)
+
+print("----------------------14-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Find the Longest Mountain in an Array
+# Problem statement:
+# A mountain is a contiguous sequence that strictly increases to a peak and then strictly decreases.
+# Find the length of the longest mountain.
+# A valid mountain must contain at least three elements.
+# Example: [2, 1, 4, 7, 3, 2, 5]
+# Output:
+# --------------------------------------------------------------------------------------------
+# thinking -- i will separate out a list where every element is increasing -- 
+# Find indexes where the change is occuring
+#   element is < previous and <next --> Lower
+#   element is > previuos and > next  --> Upper Peak
+
+# Find Peak where leftside increases and rightside decreases frequently
+
+array = [2, 1, 4, 7, 3, 2, 5]
+n = len(array)
+longest = 0
+
+# Step 1: Mountains require at least 3 elements, so peaks can only exist from index 1 to n-2.
+for i in range(1, n - 1):
+    # Step 2: Check if current element is a peak (strictly greater than both neighbors).
+    if array[i] > array[i - 1] and array[i] > array[i + 1]:
+        left = i
+        right = i
+        
+        # Step 3: Expand leftward while the sequence strictly decreases going backward.
+        while left > 0 and array[left - 1] < array[left]:
+            left -= 1
+            
+        # Step 4: Expand rightward while the sequence strictly decreases going forward.
+        # Boundary guard: Ensure right < n - 1 to prevent array[right + 1] IndexError.
+        while right < n - 1 and array[right] > array[right + 1]:
+            right += 1
+            
+        # Step 5: Calculate current mountain length and update maximum found so far.
+        length = right - left + 1
+        if length > longest:
+            longest = length
+
+print("Longest Mountain :", longest)
+
+# ========== CONCLUSION ==========
+# Review of your logic
+# 1. Find a peak: array[i] > array[i-1] and array[i] > array[i+1].
+# 2. Expand left while elements are strictly increasing towards the peak.
+# 3. Expand right while elements are strictly decreasing from the peak.
+# 4. Calculate the mountain length and update longest.
+
+print("----------------------15-----------------------")
+# ========== FIRST NON-REPEATING ELEMENT ==========
+# --------------------------------------------------------------------------------------------
+# Find the First Non-Repeating Element
+# Problem statement: Find the first element whose frequency is exactly 1.
+# Input:
+# 4 5 4 6 5 7 6
+# --------------------------------------------------------------------------------------------
+array = [4,5,4,8,6,5,7,6]
+dic = {}
+for i in array:
+    if i not in dic:
+        dic[i] = 1
+    else:
+        dic[i] += 1
+print(list(dic.keys()))
+print(list(dic.values()))
+for x in dic.keys():
+    if dic[x]==1:
+        print(x)
+        break
+
+# Method 2
+for i in range(len(array)):
+    count = 0
+    for j in range(len(array)):
+        if array[i] == array[j]:
+            count+=1
+    if count == 1:
+        print(array[i])
+        break
+
+# ========== CONCLUSION ==========
+# METHOD 1: Frequency Dictionary (Hash Map)
+# Logic:
+# 1. Traverse the array and store each element's frequency in a dictionary.
+# 2. Traverse the dictionary in insertion order.
+# 3. Return the first element whose frequency is 1.
+# Time: O(n) | Space: O(n)
+# Recommended: Efficient and preserves the original element order.
+
+# METHOD 2: Brute Force (Nested Loops)
+# Logic:
+# 1. Take each element and compare it with every other element.
+# 2. Count its occurrences in the array.
+# 3. If frequency is 1, return that element.
+# Time: O(n²) | Space: O(1)
+# Not recommended for large arrays due to repeated comparisons.
