@@ -626,3 +626,149 @@ for i in range(len(array)):
 # 3. If frequency is 1, return that element.
 # Time: O(n²) | Space: O(1)
 # Not recommended for large arrays due to repeated comparisons.
+
+print("----------------------16-----------------------")
+# --------------------------------------------------------------------------------------------
+# !
+# Find the Previous Smaller Element
+# Problem statement: For each element,
+# find the nearest element to its left that is strictly smaller.
+# If none exists, print -1.
+# --------------------------------------------------------------------------------------------
+array = [4,2,5,3,7]
+result = []   # -1 for the first elemment as in left nothing exist
+for i in range(-1, -(len(array)+1), -1):
+    for j in range(i-1, -(len(array)+1), -1):
+        print(i,j)
+# I was trying to look after from right to left
+
+
+# arr=[4,2,5,3,7]
+
+# def find_smaller(arr):
+#     result=[]
+#     smaller_element=-1
+#     for i in range(len(arr)):
+#         for j in range(i-1,-1,-1):
+#             if arr[j]<arr[i]:
+#                 smaller_element=arr[j]
+#                 break
+        
+#         result.append(smaller_element)
+        
+#     return result
+# find_smaller(arr)
+
+
+print("----------------------17-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# ========== BEST TIME TO BUY AND SELL ONCE ==========
+# Find the Best Time to Buy and Sell Once
+# Problem statement: Given daily stock prices,
+# find the maximum profit possible by buying once and selling later.
+# If no profit is possible, return 0.
+# Example: [7, 1, 5, 3, 6, 4]
+# Output:
+# --------------------------------------------------------------------------------------------
+
+prices = [7, 1, 5, 3, 6, 4]
+max_profit = []
+for i in range(len(prices)):
+    maxP = 0
+    for j in range(i+1,len(prices)):
+        if prices[j]>prices[i]:
+            profit = prices[j] - prices[i]
+            if profit > maxP:
+                maxP = profit
+    max_profit.append(maxP)
+
+print(max_profit)
+
+#* METHOD 2
+# What if I only want to show the Max_profit for all?
+prices = [7, 1, 5, 3, 6, 4]
+min_price = float('inf')
+max_profit = 0
+
+for price in prices:
+    # In every loop I am assuming it's my Selling Price & Buying Price as Min_Price
+    profit = price - min_price
+    if price<min_price:
+        min_price = price               # Update the lowest buying price seen so far
+
+    elif profit > max_profit:           # Calculate profit if sold today, 
+        max_profit = profit             # and update max_profit if it's higher
+print(max_profit)
+
+
+# METHOD 1: Brute Force (Check Every Buy-Sell Pair)
+# Logic:
+# 1. Consider each day as a buying day.
+# 2. Check every later day as a selling day.
+# 3. Calculate profit and store the maximum profit for each buying day.
+# Time: O(n²) | Space: O(n) for storing individual maximum profits.
+# Useful for understanding all possible buy-sell combinations.
+# Limitation: Repeated comparisons make it inefficient.
+
+# METHOD 2: Single Pass (Track Minimum Price)
+# Logic:
+# 1. Track the lowest price seen so far (buying price).
+# 2. Calculate potential profit at each day (selling today).
+# 3. Update maximum profit if the new profit is higher.
+# 4. Update minimum price for future buying opportunities.
+# Time: O(n) | Space: O(1)
+# Recommended: Most efficient approach.
+
+
+
+print("----------------------18-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Find the Smallest Difference Between Two Sorted Arrays
+# Problem statement: Given two arrays sorted in ascending order,
+# find the smallest absolute difference between an element of the first array and an element of the second.
+# Example: A = [1, 4, 8, 10], B = [2, 5, 9, 12]
+# Output: 
+# --------------------------------------------------------------------------------------------
+# Method 1
+# looping through array and check -- Tranditional Method
+# -------------------------------------------------------------------------
+# Method 2: Two-Pointer Approach
+# Time Complexity: O(N + M) where N and M are lengths of arrays a and b.
+# Space Complexity: O(1) as it operates in-place with pointers.
+
+a = [1, 4, 8, 10]
+b = [2, 5, 9, 12]
+
+# Initialize two pointers at the beginning of both sorted arrays
+i = 0
+j = 0
+
+# Assume the initial difference is the minimum
+minimum = abs(a[0] - b[0])
+
+# Traverse until we run out of elements in either array
+while i < len(a) and j < len(b):
+    # Calculate the absolute difference between the current elements
+    diff = abs(a[i] - b[j])
+    
+    # Update the minimum difference found so far
+    if diff < minimum:
+        minimum = diff
+    
+    # THE CORE THINKING LOGIC:
+    # Since both arrays are sorted in ascending order:
+    # - If a[i] is smaller than b[j], incrementing 'j' would make b[j] even larger, 
+    #   widening the gap between them. To bring them closer, we must move 'i' forward.
+    # - Conversely, if b[j] is smaller or equal, we move 'j' forward to close the gap.
+    if a[i] < b[j]:
+        i += 1
+    else:
+        j += 1
+
+# Output the smallest absolute difference found
+print(minimum)  # Output: 1 (from pairs like |1-2|, |4-5|, |8-9|, |10-9|)
+
+# * NOTE : Method 2 needs the both arrays to be sorted but Method 1 don't want that
+

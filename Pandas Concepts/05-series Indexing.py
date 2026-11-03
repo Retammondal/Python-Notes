@@ -1,5 +1,17 @@
 import pandas as pd
 
+import numpy as np
+df = pd.DataFrame({
+    "Student_ID": [101, 102, 103, 104, 105, 106, 107, 108],
+    "Name": ["Amit", "Priya", "Rahul", "Sneha",
+    "Karan", "Neha", "Rohit", "Pooja"],
+    "Age": [18, 19, 18, 20, 19, 18, 21, 19],
+    "Branch": ["CSE", "ECE", "CSE", "IT",
+    "ME", "CSE", "ECE", "IT"],
+    "Marks": [78, 92, 65, 88, 45, 95, 56, 72],
+    "Attendance": [85, 95, 70, 90, 60, 98, 75, 82]
+})
+
 print("----------------------1-----------------------")
 # ==============================================================================
 # PANDAS SERIES INDEXING: STANDARD VS POSITION-BASED (.iloc)
