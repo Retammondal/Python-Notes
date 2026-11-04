@@ -89,3 +89,4 @@ print(df.iloc[-4:])            # Show the details of last 4 students?
 
 print(df.iloc[-4:, [4, 5]])    # Show the details of last 4 students and 4,5 index 
                                # columns?
+

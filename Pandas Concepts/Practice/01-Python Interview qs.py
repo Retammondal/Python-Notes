@@ -639,7 +639,15 @@ array = [4,2,5,3,7]
 result = []   # -1 for the first elemment as in left nothing exist
 for i in range(-1, -(len(array)+1), -1):
     for j in range(i-1, -(len(array)+1), -1):
-        print(i,j)
+        if (array[j]<array[i]):
+            result.append(array[j])
+            break
+        result.append(-1)
+
+
+        
+# result.reverse()        # reverse in place
+print(result)
 # I was trying to look after from right to left
 
 
@@ -772,3 +780,236 @@ print(minimum)  # Output: 1 (from pairs like |1-2|, |4-5|, |8-9|, |10-9|)
 
 # * NOTE : Method 2 needs the both arrays to be sorted but Method 1 don't want that
 
+print("----------------------19-----------------------")
+# --------------------------------------------------------------------------------------------
+# Count the Number of Inversions
+# Problem statement: An inversion is a pair of indices (i, j) where i < j but arr[i] > arr[j].
+# Count all inversions in the array.
+# Example: [2, 4, 1, 3, 5]
+# Output:
+# --------------------------------------------------------------------------------------------
+array = [2, 4, 1, 3, 5]
+count = 0
+for i in range(len(array)):
+    for j in range(i+1,len(array)):
+        if array[i] > array[j]:
+            count += 1
+print(count)
+
+print("----------------------20-----------------------")
+# --------------------------------------------------------------------------------------------
+# GCD Using Euclidean Algorithm Problem :
+# Problem: Find the greatest common divisor (GCD) of two positive integers
+# using the Euclidean algorithm.
+# input: 48, 18
+# Output:
+# 18 -> 1,2,3,6,9,18
+# 48 -> 1,2,3,4,6,12,16,24,48
+# Common Divisors -- 1,2,3,6
+# Greatest Common Divisor (GCD) = 6
+# --------------------------------------------------------------------------------------------
+# METHOD 1: BruteForce Method
+def findGCD(entry1, entry2):
+    if entry1 > entry2:
+        num1 = entry1
+        num2 = entry2
+    elif entry1 < entry2:
+        num1 = entry2
+        num2 = entry1
+
+    gcd_num1 = []
+    gcd_num2 = []
+    gcd = []
+    for i in range(1, num1+1):
+        if num1 % i == 0:
+            gcd_num1.append(i)
+    for j in range(1, num2+1):
+        if num2 % j == 0:
+            gcd_num2.append(j)
+            if j in gcd_num1:
+                gcd.append(j)
+        
+    # print(gcd_num1)
+    # print(gcd_num2)
+    # print(gcd)
+    print(max(gcd))
+findGCD(48,18)
+findGCD(18,48)
+
+# METHOD 2:
+input_arr = [18,48]
+
+def find_gcd(arr):
+    greatest_divisor = 1
+    for i in range(1, min(arr)+1):
+        if arr[0]%i ==0 and arr[1]%i == 0:
+            greatest_divisor = i
+    print(greatest_divisor)
+    return greatest_divisor
+find_gcd(input_arr)
+
+# METHOD 3:
+# def find_gcd(a, b):
+#     while b != 0:
+#         a, b = b, a % b
+#     return a
+
+# print(find_gcd(48, 18))  # 6
+
+
+# ========== GCD USING EUCLIDEAN ALGORITHM ==========
+
+# METHOD 1: Brute Force (Common Divisors)
+# Logic:
+# 1. Find all divisors of both numbers.
+# 2. Identify common divisors.
+# 3. Return the greatest common divisor.
+# Time: O(n) | Space: O(n) for storing divisor lists.
+# Limitation: Creates unnecessary lists and checks many divisors.
+
+# METHOD 2: Brute Force (Check Up to Minimum)
+# Logic:
+# 1. Iterate from 1 to the smaller number.
+# 2. Check whether both numbers are divisible by the current number.
+# 3. Update the greatest divisor found.
+# Time: O(min(a,b)) | Space: O(1)
+# Improvement: Avoids storing divisor lists, but still checks every number.
+
+# METHOD 3: Euclidean Algorithm (Modulo)
+# Logic:
+# 1. Divide the larger number by the smaller number and find the remainder.
+# 2. Replace the larger number with the smaller number.
+# 3. Replace the smaller number with the remainder.
+# 4. Repeat until the remainder becomes 0.
+# 5. The remaining non-zero number is the GCD.
+# Time: O(log(min(a,b))) | Space: O(1)
+# Recommended: Most efficient of these methods.
+
+# ========== CONCLUSION ==========
+# Method 1: Understands common divisors.
+# Method 2: Improves space complexity.
+# Method 3: Uses the Euclidean principle and is preferred.
+
+
+print("----------------------21-----------------------")
+# --------------------------------------------------------------------------------------------
+# !
+# Problem: Calculate the least common multiple of two positive integers.
+# Use the relationship between LCM and GCD.
+# input: 12, 18
+# Output:
+# 12 -> 12,24,36,48
+# 18 -> 18,36,..
+# Common Multiple -- 36,...
+# Least Common Multiple (LCM) = 36
+# --------------------------------------------------------------------------------------------
+arr = [12,18]
+i = 1
+while i>0 and i<5:
+    num = min(arr)*i
+    print(num)
+    i += 1
+# Thinking is if the num is also in multiple of arr[1] then get the value and break the loop
+
+# Method 2 :
+# Relationship b/w GCD and LCM => a * b = GCD x LCM
+a,b = 12,18
+
+gcd = find_gcd([a,b])
+lcm = (a*b)//gcd
+print(lcm)
+
+print("----------------------21-----------------------")
+# --------------------------------------------------------------------------------------------
+# Problem: Determine whether a number greater than 1 is prime.
+# Use trial division only up to its square root.
+# --------------------------------------------------------------------------------------------
+num = 29
+def prime_check(number):
+    sq_root_num = int(number ** 0.5)   
+    for i in range(2,sq_root_num+1):
+        if number % i == 0 :
+            print("Not Prime")
+            return
+    print("Prime")
+prime_check(num)
+
+
+# Method 2:
+num = 29
+
+def prime_check(num):
+    is_Prime = num>1          # by default coming to be true
+    i = 2
+
+    while i*i <= num:
+        if num % i == 0:
+            is_Prime = False
+            break
+        i+=1
+    # print("Prime" if is_Prime else "Not Prime")
+    # return "Prime" if is_Prime else "Not Prime"
+    return True if is_Prime else False
+
+prime_check(num)
+print(prime_check(num))
+print("----------------------22-----------------------")
+# --------------------------------------------------------------------------------------------
+# Given two integers L and R, print all prime numbers in the inclusive range.
+# --------------------------------------------------------------------------------------------
+low,high = 10,25
+arr = []
+for i in range(low,high+1):
+    if(prime_check(i)):
+        arr.append(i)
+print(arr)
+
+
+print("----------------------23-----------------------")
+# ! Quetion is left
+# --------------------------------------------------------------------------------------------
+# Problem:
+# Each row and each column of a matrix is sorted in ascending order.
+# Determine whether a target exists. Use the efficient top-right-corner approach.
+# Example: Matrix [[1,4,7],[2,5,8],[3,6,9]], target 6
+# 1- Try to do with 2 loops
+# 2 - Try to do with 1 loop onl
+# --------------------------------------------------------------------------------------------
+# Method 1 : We can do by going through 2 loop & get value by array[i][j]
+# Method 2 : Use the fact that Matrix is sorted
+matrix = [[1,4,7],[2,5,8],[3,6,9]]
+import numpy as np
+matrix_np = np.array(matrix)
+print(matrix_np)
+
+# Convert it to like this
+# 1 4 7
+# 2 5 8
+for i in range(len(matrix)):
+    for j in range(len(matrix)):
+        print(matrix[i][j], end=" ")
+    print()
+
+matrix = [
+    [1,4,7],
+    [2,5,8],
+    [3,6,9]
+]
+target = 6
+rows = len(matrix)
+cols = len(matrix[0])
+
+i,j = 0, cols-1
+found = False
+
+while i<rows and j>=0:
+    if matrix[i][j] == target:
+        found = True
+        break
+    elif matrix[i][j] > target:
+        j -= 1
+    else: 
+        i += 1
+print("Found" if found else "Not Found")
+
+# 04 nov => Revised the Pandas concepts but Python Interview Ques Revision Pending...
