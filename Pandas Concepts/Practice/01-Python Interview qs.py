@@ -629,43 +629,53 @@ for i in range(len(array)):
 
 print("----------------------16-----------------------")
 # --------------------------------------------------------------------------------------------
-# !
 # Find the Previous Smaller Element
 # Problem statement: For each element,
 # find the nearest element to its left that is strictly smaller.
 # If none exists, print -1.
 # --------------------------------------------------------------------------------------------
+# METHOD 01 :
 array = [4,2,5,3,7]
 result = []   # -1 for the first elemment as in left nothing exist
 for i in range(-1, -(len(array)+1), -1):
+    isExist = False
     for j in range(i-1, -(len(array)+1), -1):
         if (array[j]<array[i]):
             result.append(array[j])
+            isExist = True
             break
+    if (not isExist):
         result.append(-1)
 
 
-        
-# result.reverse()        # reverse in place
+result.reverse()        # reverse in place
 print(result)
-# I was trying to look after from right to left
 
+# --------------------------------------------------------------
+# METHOD 02 :
+arr=[4,2,5,3,7]
+result = []
+for i in range(len(arr)):
+    isExist = False
+    for j in range(i-1,-1,-1):
+        if arr[j]<arr[i]:
+            result.append(arr[j])
+            isExist = True
+            break
+    if (not isExist):
+        result.append(-1)
+print(result)
 
-# arr=[4,2,5,3,7]
+# ========== PREVIOUS SMALLER ELEMENT ==========
+# METHOD 1: Reverse Traversal (Negative Indexing)
+# Logic: Traverse right to left, search for the nearest smaller element on the left, then reverse the result.
+# Time: O(n²) | Space: O(n)
+# Limitation: Complex indexing and extra reversal.
 
-# def find_smaller(arr):
-#     result=[]
-#     smaller_element=-1
-#     for i in range(len(arr)):
-#         for j in range(i-1,-1,-1):
-#             if arr[j]<arr[i]:
-#                 smaller_element=arr[j]
-#                 break
-        
-#         result.append(smaller_element)
-        
-#     return result
-# find_smaller(arr)
+# METHOD 2: Nested Loops (Direct Indexing)
+# Logic: Traverse left to right, search backward for the nearest smaller element.
+# Time: O(n²) | Space: O(n)
+# Better: Simpler and more readable than Method 1.
 
 
 print("----------------------17-----------------------")
@@ -680,6 +690,7 @@ print("----------------------17-----------------------")
 # Output:
 # --------------------------------------------------------------------------------------------
 
+# METHOD 1
 prices = [7, 1, 5, 3, 6, 4]
 max_profit = []
 for i in range(len(prices)):
@@ -693,6 +704,7 @@ for i in range(len(prices)):
 
 print(max_profit)
 
+# ------------------------------------------------------------
 #* METHOD 2
 # What if I only want to show the Max_profit for all?
 prices = [7, 1, 5, 3, 6, 4]
@@ -836,6 +848,7 @@ def findGCD(entry1, entry2):
 findGCD(48,18)
 findGCD(18,48)
 
+# ---------------------------------------------------
 # METHOD 2:
 input_arr = [18,48]
 
@@ -847,14 +860,6 @@ def find_gcd(arr):
     print(greatest_divisor)
     return greatest_divisor
 find_gcd(input_arr)
-
-# METHOD 3:
-# def find_gcd(a, b):
-#     while b != 0:
-#         a, b = b, a % b
-#     return a
-
-# print(find_gcd(48, 18))  # 6
 
 
 # ========== GCD USING EUCLIDEAN ALGORITHM ==========
@@ -875,25 +880,15 @@ find_gcd(input_arr)
 # Time: O(min(a,b)) | Space: O(1)
 # Improvement: Avoids storing divisor lists, but still checks every number.
 
-# METHOD 3: Euclidean Algorithm (Modulo)
-# Logic:
-# 1. Divide the larger number by the smaller number and find the remainder.
-# 2. Replace the larger number with the smaller number.
-# 3. Replace the smaller number with the remainder.
-# 4. Repeat until the remainder becomes 0.
-# 5. The remaining non-zero number is the GCD.
-# Time: O(log(min(a,b))) | Space: O(1)
-# Recommended: Most efficient of these methods.
 
 # ========== CONCLUSION ==========
 # Method 1: Understands common divisors.
 # Method 2: Improves space complexity.
-# Method 3: Uses the Euclidean principle and is preferred.
 
 
 print("----------------------21-----------------------")
 # --------------------------------------------------------------------------------------------
-# !
+# * VVI
 # Problem: Calculate the least common multiple of two positive integers.
 # Use the relationship between LCM and GCD.
 # input: 12, 18
@@ -903,14 +898,22 @@ print("----------------------21-----------------------")
 # Common Multiple -- 36,...
 # Least Common Multiple (LCM) = 36
 # --------------------------------------------------------------------------------------------
+
+# Method 1 :
 arr = [12,18]
 i = 1
+max_num_multiple = []
+lcm = 0
 while i>0 and i<5:
     num = min(arr)*i
-    print(num)
+    max_num_multiple.append(max(arr)*i)
+    if num in max_num_multiple:
+        lcm = num
+        break
     i += 1
-# Thinking is if the num is also in multiple of arr[1] then get the value and break the loop
+print(lcm)
 
+# --------------------------------------------------------
 # Method 2 :
 # Relationship b/w GCD and LCM => a * b = GCD x LCM
 a,b = 12,18
@@ -918,6 +921,16 @@ a,b = 12,18
 gcd = find_gcd([a,b])
 lcm = (a*b)//gcd
 print(lcm)
+
+# METHOD 1: Brute Force (Common Multiples)
+# Logic: Generate multiples of the smaller number and check which is divisible by the larger number.
+# Time: O(a*b) worst case | Space: O(1)
+# Limitation: Repeated checking; inefficient.
+
+# METHOD 2: GCD-LCM Relationship
+# Logic: Calculate GCD first, then use LCM = (a * b) // GCD.
+# Time: O(log(min(a,b))) | Space: O(1)
+# Recommended: Efficient approach using Euclidean GCD.
 
 print("----------------------21-----------------------")
 # --------------------------------------------------------------------------------------------
@@ -953,6 +966,20 @@ def prime_check(num):
 
 prime_check(num)
 print(prime_check(num))
+
+# METHOD 1: Trial Division (Using Square Root)
+# Logic: Check divisibility from 2 up to the square root of the number.
+# Time: O(√n) | Space: O(1)
+# Limitation: Calculates square root separately.
+
+# METHOD 2: Trial Division (Using i * i)
+# Logic: Check divisibility while i * i <= num. Stop if a divisor is found.
+# Time: O(√n) | Space: O(1)
+# Recommended: Avoids square-root calculation and returns a Boolean.
+
+# CONCLUSION:
+# Both methods have the same complexity. Method 2 is slightly cleaner.
+
 print("----------------------22-----------------------")
 # --------------------------------------------------------------------------------------------
 # Given two integers L and R, print all prime numbers in the inclusive range.
@@ -966,7 +993,6 @@ print(arr)
 
 
 print("----------------------23-----------------------")
-# ! Quetion is left
 # --------------------------------------------------------------------------------------------
 # Problem:
 # Each row and each column of a matrix is sorted in ascending order.
@@ -1012,4 +1038,211 @@ while i<rows and j>=0:
         i += 1
 print("Found" if found else "Not Found")
 
-# 04 nov => Revised the Pandas concepts but Python Interview Ques Revision Pending...
+# METHOD 1: Brute Force (Nested Loops)
+# Logic: Traverse every row and column to find the target.
+# Time: O(rows * cols) | Space: O(1)
+# Simple but inefficient for large matrices.
+
+# METHOD 2: Staircase Search (Top-Right Corner)
+# Logic: Start at the top-right corner.
+# If current > target, move left.
+# If current < target, move down.
+# Time: O(rows + cols) | Space: O(1)
+# Recommended: Uses sorted rows and columns to eliminate possibilities.
+
+# CONCLUSION:
+# Method 1: Checks every element.
+# Method 2: Searches efficiently using one loop.
+
+
+print("----------------------24-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Problem:
+# Repeatedly add the digits of a positive integer untill only one digit remains
+# Input : 9875
+# 9875 --> 9+8+7+5 = 29
+# 29 --> 2+9 = 11
+# 11 --> 1+1 = 2
+# --------------------------------------------------------------------------------------------
+# METHOD 1
+
+# Initial State
+num = 9875
+n = len(str(abs(num)))          # 4
+
+                                                # Keep breaking the number down until only 1 digit is left
+while n>1:
+    sum = 0
+    for n in str(num):
+        sum = sum + int(n)
+    num = sum
+    n = len(str(sum))                           # Count digits of the new sum to check if we loop again
+print(sum)
+
+# -------------------------------------------------------------------
+# * Method 2
+num = 9875
+
+                                                # Outer loop: repeats until 'num' is reduced to a single digit (< 10)
+while num >= 10:        
+    digit_sum = 0    
+                                                # Inner loop: extracts and sums every digit of 'num'
+    while num > 0:
+        digit_sum = digit_sum + num % 10        # num % 10 gets the last digit
+        num = num // 10                         # num // 10 removes the last digit
+    num = digit_sum                             # Update 'num' with the sum for the next round
+
+print(num)  # Output: 2
+
+# ========== REPEATED DIGIT SUM ==========
+
+# METHOD 1: String Conversion (Convert Digits to String)
+# Logic:
+# 1. Convert the number into a string to access individual digits.
+# 2. Convert each digit back to integer and calculate their sum.
+# 3. Repeat until the sum contains only one digit.
+# Limitation: Repeated string conversions are required.
+
+# METHOD 2: Mathematical Approach (Modulo and Floor Division)
+# Logic:
+# * 1. Use num % 10 to extract the last digit.
+# * 2. Use num // 10 to remove the last digit.
+# 3. Repeat until all digits are added.
+# 4. Replace num with digit_sum and repeat until num < 10.
+# Recommended: Avoids string conversion and extra storage.
+
+print("----------------------25-----------------------")
+# --------------------------------------------------------------------------------------------
+# Problem:
+# Given a Positive number, count the number of digits in it
+# 1456 --> 4
+# --------------------------------------------------------------------------------------------
+num = 1456
+current_num = num
+count = 0
+while current_num > 0:
+    current_num = current_num // 10         # Removing the last one
+    count += 1                                # adding to sum
+print(count)
+
+print("----------------------26-----------------------")
+# --------------------------------------------------------------------------------------------
+# A number is an ArmString number 
+# if the sum of each digit raised to the number of digits equals to the original number.
+# Example : 153, d = 3
+# 1^3 + 5^3 + 3^3 = 153 --> Armstrong
+# --------------------------------------------------------------------------------------------
+num = 1456
+def is_armstring(number):
+    current_num = number
+    digit = []
+    count = 0
+    while current_num > 0:
+        last_digit = current_num % 10         # Getting the last digit
+        current_num //=10                     # Removing the last digit
+        digit.append(last_digit)              # Adding last digit 
+        count += 1
+
+    digit_sum = 0
+    for x in digit:
+        digit_sum += x**3
+    if digit_sum == number:
+        return True
+    else:
+        return False
+print(is_armstring(num))
+print(is_armstring(153))
+
+print("----------------------27-----------------------")
+# --------------------------------------------------------------------------------------------
+
+# Write a code to find the Factorial of a Given Number
+# Recursive Method
+# Iterative Method
+# Example : 5! = 5*4*3*2*1
+# --------------------------------------------------------------------------------------------
+num = 5
+factorial = 1
+for i in range(1,num+1):
+    factorial *= i
+print(factorial)
+
+# Method 2 -> Recursive method
+# Recursion --> A Function calling itself
+def fact(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * fact(n-1)                    # Each time it will call itself...untill 1/0 came
+
+# ========== FACTORIAL OF A NUMBER ==========
+
+# METHOD 1: Iterative Method (Using For Loop)
+# Recommended: Simple and memory-efficient.
+
+# METHOD 2: Recursive Method (Function Calling Itself)
+# Logic:
+# 1. Define a base case: if n == 0 or n == 1, return 1.
+# 2. Otherwise, return n * fact(n-1).
+# 3. Each function call reduces n until the base case is reached.
+# Best for: Understanding recursion and problems with recursive structure.
+
+print("----------------------28-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Find the Nth Fibonacci number
+# Problem:
+# The Fibonacci sequence starts with 0, 1.
+# Each subsequent term is the sum of the previous two.
+# Find the term at zero-based index N.
+# n = 7, output: 13
+# 0, 1, 1, 2, 3, 5, 8, 13,....
+# --------------------------------------------------------------------------------------------
+
+# METHOD 1 : Iterative Approach
+prev_prev = 0           # Previous Previous Element
+prev = 1                # Previous Element
+current_element = 0 
+term_index = 7
+# Starting the Loop from 2nd index as 0th and 1st element = 1(We know)
+for i in range(2,term_index+1):
+    current_element = prev_prev + prev              # Current = sum(last two)
+
+    # Setting things for Next Iteration
+    # Prev --> converted to --> prev prev
+    # Curr --> converted to --> prev
+    prev_prev = prev
+    prev = current_element
+
+print(current_element)
+
+# -------------------------------------------------------------------
+# METHOD 2 : Recursive Method
+def fibonacci(n):
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    return fibonacci(n-1) + fibonacci(n-2)              # Recursive Case
+print(fibonacci(7))
+print(fibonacci(4))             # 3
+
+
+# RECURSION TREE VISUALIZATION: fib(4)
+# -------------------------------------------------------------------
+# Each non-leaf node evaluates its left child first, then its right child.
+#
+#                         fib(4)  -> Returns 3
+#                        /      \
+#                       /        \
+#                 fib(3)          fib(2)  -> Returns 1
+#                /      \         /     \
+#               /        \     fib(1)  fib(0)
+#           fib(2)      fib(1)   (1)     (0)
+#          /      \       (1)
+#       fib(1)  fib(0)
+#        (1)     (0)
+#
+# Total calls: 9 calls to compute fib(4)
+# Redundant work: fib(2) is calculated twice from scratch.
+# ----------------------------------------------------------------------------

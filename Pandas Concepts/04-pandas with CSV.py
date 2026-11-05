@@ -110,3 +110,20 @@ salary_series = dataframe["Salary"]
                                # Only load the salary 
 print(salary_series)
 print(salary_series.mean())    # avg salary
+
+print("----------------------5-----------------------")
+# --------------------------------------------------------------------------------------------
+# 5. Save to CSV
+# --------------------------------------------------------------------------------------------
+import pandas as pd
+
+# Sample DataFrame
+data = {
+    'Name': ['Alice', 'Bob', 'Charlie'],
+    'Age': [25, 30, 35],
+    'City': ['New York', 'London', 'Paris']
+}
+df = pd.DataFrame(data)
+
+# Save to CSV without the index column
+# df.to_csv('output.csv', index=False)

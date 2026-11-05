@@ -108,3 +108,12 @@ print(df[["Name"]])            # Getting the Name in form of Dataframe --> has H
                                # -- not valid, a series can't have 2 columns we know
 
 print(df[["Name", "Age"]])     # -- it's not a series anymore, it's DataFrame
+
+# ------------------------------------------------------------------------
+# Note : df.columns and df.index --> returns in Pandas Series List
+# Convert to Python List
+#   i. list(....)
+#   ii. (....).tolist()
+
+print(list(df.columns))
+print((df.columns).tolist())

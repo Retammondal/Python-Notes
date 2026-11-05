@@ -46,6 +46,9 @@ print("----------------------3-----------------------")
 # --------------------------------------------------------------------------------------------
 # Boolean Indexing: Filtering rows based on a condition.
 # Pandas evaluates expressions/Series like `courses["Python"] > 80` into a Series of True/False values
+# * In Pandas, [] operator changes it's behaviour based on type of data passed:
+#           i. Pass a String/label : Pandas look for Column name
+#           ii. Pass a Boolean list/Series : Pandas take it as Boolean Indexing & Act as Row Filter
 
 print(courses["Python"] > 80)  # It will give a Series of True, False values
 

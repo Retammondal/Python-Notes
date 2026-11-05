@@ -1,0 +1,8 @@
+Student_ID,Name,Branch,Marks,Attendance,Backlogs,Placement_Training
+101,Amit,CSE,82,85,0,Yes
+102,Priya,ECE,91,92,0,Yes
+104,Sneha,IT,88,90,0,Yes
+106,Neha,CSE,95,96,0,Yes
+107,Rohit,ECE,79,83,0,No
+108,Pooja,IT,72,95,0,Yes
+110,Vikas,CSE,74,75,0,No
