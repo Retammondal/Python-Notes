@@ -1246,3 +1246,144 @@ print(fibonacci(4))             # 3
 # Total calls: 9 calls to compute fib(4)
 # Redundant work: fib(2) is calculated twice from scratch.
 # ----------------------------------------------------------------------------
+
+print("----------------------29-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Check whether two strings are anagrams
+# Problem:
+# Two strings are anagrams if they contain the same characters with the same frequencies, regardless of order.
+# Assume the strings contain lowercase English letters.
+# Example: Input: listen, silent
+# Output:
+# --------------------------------------------------------------------------------------------
+# Method 1 : 
+# Create a dictionary and check
+def is_anagram(sample_str1, sample_str2):
+    data_check = {}
+    str1 = sample_str1.lower().strip()
+    str2 = sample_str2.lower().strip()
+
+    for i in str1:
+        if i in data_check:
+            data_check[i] += 1
+        else:
+            data_check[i] = 1
+    for j in str2:
+        if (j in data_check):
+            data_check[j] -= 1
+            if data_check[j] == 0:
+                del data_check[j]
+        else:
+            return "not_anagram"
+    if (not data_check):
+        return "anagram"
+    else:
+        return "not_anagram"  # Explicitly handles cases where str1 is longer than str2
+
+print(is_anagram("listen", "silent"))
+
+# * Method 2 :
+# Considering both string is in lowercase + No space inside/Outside
+# ASCII Values
+str1 = "listen"
+str2 = "silent"
+
+if len(str1) != len(str2):        
+    print("Not Anagram")
+else:
+    freq = [0]*26               # Creating list of 26 characters ; all 0
+
+    # print(ord('a'))           # 97
+    # print(ord('z'))           # 122
+
+    for ch in str1:
+        freq[ord(ch) - ord('a')] += 1       # Ques: for d it will come 3 
+                                            # --> but in python 0-indexing ultimatly will get 4
+    for ch in str2:
+        freq[ord(ch) - ord('a')] -= 1
+    
+    if all(x == 0 for x in freq):
+        print("Anagrams")
+    else:
+        print("Not Anagrams")
+
+# METHOD 1: Frequency Dictionary (Single Hash Map)
+# Logic: Increment character counts from str1, decrement using str2.
+# Remove characters when their frequency becomes 0.
+
+# METHOD 2: Character Frequency Array (ASCII)
+# Logic: Create an array of 26 zeros.
+# Increment frequency for str1 and decrement for str2 using ASCII indexes.
+# If all values are 0, the strings are anagrams.
+
+print("----------------------30-----------------------")
+# --------------------------------------------------------------------------------------------
+# Find the first non-repeating character in a string
+# Problem:
+# Find the first character that appears exactly once.
+# If every character repeats, print None. Assume lowercase English letters.
+# Use the ASCII Concept
+# Example : Input : swiss
+# --------------------------------------------------------------------------------------------
+text = "swiss"
+freq = [0]*26
+for i in text:
+    freq[ord(i) - ord('a')] += 1
+answer = None
+for j in text:
+    if freq[ord(j) - ord('a')] == 1:
+        answer = j
+        break
+print(answer if answer is not None else "None")
+
+print("----------------------31-----------------------")
+# --------------------------------------------------------------------------------------------
+# Calculate the average of elements greater than a given value
+# Problem statement:
+# Given an array and a number K, calculate the average of all elements strictly greater than K.
+# If no element qualifies, print No elements.
+# Example: Array = [10, 25, 30, 15, 40], K = 20
+# Output:
+# --------------------------------------------------------------------------------------------
+import numpy as np
+array = [10, 25, 30, 15, 40]
+final_arr = []
+K = 20
+for i in array:
+    if i > K:
+        final_arr.append(i)
+# Handle the edge case where no elements qualify
+if len(final_arr) > 0:
+    avg = np.mean(final_arr).round(2)
+    print(avg)
+else:
+    print("No elements")
+
+print("----------------------32-----------------------")
+# --------------------------------------------------------------------------------------------
+# Find the difference between the sum of even and odd elements
+# Problem statement: Calculate the sum of even-valued elements
+# and the sum of odd-valued elements.
+# Print the absolute difference between the two sums.
+# Example: [2, 7, 4, 9, 6]
+# Output:
+# --------------------------------------------------------------------------------------------
+def is_even(num):
+    if num % 2 == 0:
+        return True
+    else:
+        return False
+print(is_even(5))       # False
+
+array = [2, 7, 4, 9, 6]
+even_sum = 0
+odd_sum = 0
+for i in array:
+    if is_even(i):
+        even_sum += i
+    else:
+        odd_sum += i
+diff = abs(even_sum - odd_sum)
+print(diff)
+
