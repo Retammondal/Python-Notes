@@ -1387,3 +1387,93 @@ for i in array:
 diff = abs(even_sum - odd_sum)
 print(diff)
 
+print("----------------------33-----------------------")
+# --------------------------------------------------------------------------------------------
+# Find the element closest to zero
+# Problem statement: Given an array containing positive and negative integers,
+# find the element whose absolute value is smallest.
+# If two elements are equally close to zero, choose the positive one.
+# Example: [-8, 3, -2, 5, 2]
+# --------------------------------------------------------------------------------------------
+array = [-8, 3, -2, 5, 2]
+closest = float('inf')
+
+for i in array:
+    if abs(i) < abs(closest):       
+        closest = i
+    elif (abs(i) == abs(closest) and i > closest):
+        closest = i
+print(closest)
+
+print("----------------------34-----------------------")
+# --------------------------------------------------------------------------------------------
+# Find the longest consecutive run of positive numbers
+# Problem statement:
+# Find the length of the longest contiguous sequence containing only positive numbers.
+# Zero and negative values break the sequence.
+# Example: [2, 3, -1, 4, 5, 6, 0, 8]
+# Output:
+# --------------------------------------------------------------------------------------------
+array = [2, 3, -1, 4, 5, 6, 0, 8]
+
+# Method 1
+def long_run(array):
+    longest_array = []
+    longest = 0
+    for i in array:
+        if i > 0:
+            longest += 1
+        elif i <= 0:
+            longest_array.append(longest)
+            longest = 0
+    longest_array.append(longest)           # appends if all positive comes at last
+    return max(longest_array)
+print(long_run(array))
+
+# Method 2 :
+def long_run(array):
+    longest = 0
+    current = 0
+    for i in array:
+        if i > 0:
+            current += 1
+            longest = max(current, longest)
+        else:
+            current = 0                     # longest will stay and current will be reset
+    return longest
+print(long_run(array))
+
+# METHOD 1: Track Runs (Using Extra List)
+# Logic: Count consecutive positive numbers and store each run length.
+# Return the maximum run length.
+
+# METHOD 2: Single Pass (Track Current and Longest)
+# Logic: Increment current for positive numbers, reset on zero/negative.
+# Update longest whenever current increases.
+
+print("----------------------35-----------------------")
+# --------------------------------------------------------------------------------------------
+# Interleave two arrays
+# Problem statement: Given two arrays of equal length,
+# create a new array by alternating elements from each array, starting with the first array.
+# Example: A = [1, 2, 3], B = [7, 8, 9]
+# Output: [1, 7, 2, 8, 3, 9]
+# --------------------------------------------------------------------------------------------
+a = [1, 2, 3]
+b = [7, 8, 9]
+result = []
+
+for i in range(len(a)):
+    result.append(a[i])
+    result.append(b[i])
+
+print(result)
+
+# Mentos Zindagi : Using Zip
+a = [1, 2, 3]
+b = [7, 8, 9]
+result = []
+for i,j in zip(a,b):
+    # result.append(i,j)            --> Wrong ! or, use 2 times
+    result.extend([i,j])
+print(result)
