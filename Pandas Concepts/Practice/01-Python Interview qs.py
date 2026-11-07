@@ -1477,3 +1477,82 @@ for i,j in zip(a,b):
     # result.append(i,j)            --> Wrong ! or, use 2 times
     result.extend([i,j])
 print(result)
+
+
+print("----------------------36-----------------------")
+# --------------------------------------------------------------------------------------------
+# Find the longest word in a sentence
+# Problem statement: Given a sentence containing words separated by spaces,
+# print the longest word. If multiple words have the same maximum length, print the first one.
+# Example: "Python makes coding enjoyable"
+# Output:
+# --------------------------------------------------------------------------------------------
+sentence = "Python makes coding enjoyable"
+words_list = sentence.split(" ")
+print(words_list)
+
+current = 0
+longest = ("",0)
+for text in words_list:
+    current = len(text) 
+    if current > longest[1]:
+        longest = (text,current)
+print(longest[0])
+
+print("----------------------37-----------------------")
+# --------------------------------------------------------------------------------------------
+# Count uppercase and lowercase letters
+# Problem statement: Given a string containing English letters,
+# count the uppercase letters and lowercase letters separately.
+# Ignore digits, spaces, and punctuation.
+# Example: "Hello WORLD 123"
+# Output:
+# upper-case - 6
+# lower-case - 4
+# --------------------------------------------------------------------------------------------
+sentence = "Hello  WORLD    123"
+# need_sent = "".join(sentence.split(" "))
+upper_case = 0
+lower_case = 0
+for x in sentence:
+    if x.isupper():
+        upper_case += 1
+    elif x.islower():
+        lower_case += 1
+print(upper_case)
+print(lower_case)
+
+# MEthod 2 : 
+upper_case = 0
+lower_case = 0
+for x in sentence:
+    if 'A' <= x <= 'Z':             # * We already know this comparison happens based on ord(character)
+        upper_case += 1
+    elif 'a' <= x <= 'z':
+        lower_case += 1
+print(upper_case)
+print(lower_case)
+
+# METHOD 1: Built-in String Methods
+# Logic: Use isupper() and islower() to identify and count letters.
+# Recommended: Simple and readable.
+
+# METHOD 2: Character Range Comparison (ASCII)
+# Logic: Check whether each character falls between 'A'-'Z' or 'a'-'z'.
+# Best for: Understanding character comparison using ASCII values.
+
+# ? Mistake By me: Put else except elif?
+# NO! B/c it will also count #,!,@ or, numbers will be taken to lower+=1; so use elif only..
+
+print("----------------------38-----------------------")
+# --------------------------------------------------------------------------------------------
+# Remove all occurrences of a chosen pattern
+# Problem statement: Given a string and a pattern,
+# remove every occurrence of that pattern while preserving the order of the remaining characters.
+# Example: String = "programming", character = "mi"
+# output:
+# --------------------------------------------------------------------------------------------
+string = "programming"
+updated = "".join(string.split("mi"))
+updated = string.replace("mi","")
+print(updated)

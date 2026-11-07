@@ -33,6 +33,32 @@ print(df)                      # Insert column "E" at Index 2
 df["A+B"] = df["A"] + df["B"]  # Will add A and B values together row by row
 print(df)
 
+# ==================================================
+# PANDAS DATAFRAME: RENAMING COLUMNS & Rows INDEX
+# ==================================================
+# Pass a dictionary to the columns parameter mapping {'old_name': 'new_name'}. 
+# By default, this returns a new DataFrame
+df = df.rename(columns={"A+B" : "Total"})
+
+# Rename specific rows
+df = df.rename(index={0: "1st"})
+print(df)
+
+
+# ==================================================
+# PANDAS DATAFRAME: DELETING COLUMNS
+# ==================================================
+# By default, this returns a new DataFrame
+# Delete a Single Column
+# df.drop(columns='col_name')
+
+# Delete Multiple Column
+df = df.drop(columns = ["Total", "D"])
+
+# Delete Rows based on Index Value
+# df.drop(["Row1","Row2",...])
+df = df.drop("1st")
+print(df)
 
 # ==================================================
 # PANDAS & NUMPY AGGREGATIONS
