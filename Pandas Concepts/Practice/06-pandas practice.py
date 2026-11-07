@@ -56,4 +56,25 @@ sales["Classify"] = np.where(condition, "High Profit", "Standard Profit")
 
 print(sales)
 
-# Q2 : 
+print("#########################################################\n")
+data = pd.DataFrame({
+    " Product Name ": [" Laptop ", "Mouse  ", " Monitor"],
+    " UNIT PRICE ": [50000, 800, 12000],
+    "Quantity Sold": [2, 10, 3],
+    "Supplier_Contact": ["9876500001", "9876500002", "9876500003"]
+})
+
+print("==========================================================")
+# Problem:
+# Standardize column names, remove unnecessary columns, trim extra spaces from text,
+# and calculate a new numeric column.
+columns = data.columns.str.strip().str.title()
+print(columns)
+
+# for i in range(len(columns)):
+#     columns[i] = columns[i].strip().capitalize()
+
+data.columns = columns
+print(data)
+
+

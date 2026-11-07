@@ -1556,3 +1556,66 @@ string = "programming"
 updated = "".join(string.split("mi"))
 updated = string.replace("mi","")
 print(updated)
+
+print("----------------------39-----------------------")
+# --------------------------------------------------------------------------------------------
+# Find the common prefix of two strings
+# Problem statement:
+# Given two strings, find their longest common prefix:
+# the longest sequence of characters they share from the beginning.
+# Example: "computer" and "compact"
+# Output:
+# --------------------------------------------------------------------------------------------
+str1 = "computer"
+str2 = "compact"
+comm_prefix = ""
+for i,j in zip(str1,str2):
+    if i == j:
+        comm_prefix += i
+    else:
+        break                   # Stop checking at the first mismatch
+print(comm_prefix)
+
+# Method 2 : ❌❌
+i = 0 
+comm_prefix = ""
+while True:
+    if str1[i] == str2[i]:
+        comm_prefix += str1[i]
+        i += 1
+    else:
+        break
+print(comm_prefix)
+
+# ? Problem : if both string has different lenght while True : will be problematic; 
+# use i should be less than or equal to lower length string
+
+# Method 2 : ✅
+i = 0 
+comm_prefix = ""
+while i < len(str1) and i < len(str2):          # * Why not equal? b/c of Indexing
+    if str1[i] == str2[i]:
+        comm_prefix += str1[i]
+        i += 1
+    else:
+        break
+print(comm_prefix)
+
+print("----------------------40-----------------------")
+# --------------------------------------------------------------------------------------------
+# Count adjacent equal pairs
+# Problem: Count how many pairs of neighboring elements have equal values.
+# Overlapping pairs are not allowed.
+# Example: [2, 2, 3, 3, 3, 1]
+# Output: 2
+# --------------------------------------------------------------------------------------------
+array = [2, 2, 3, 3, 3, 1]
+current = 0
+count = 0
+for i in range(len(array)-1):
+    if array[i] == array[i+1] and current == 0:    
+        count += 1
+        current += 1
+    else:
+        current = 0
+print(count)
