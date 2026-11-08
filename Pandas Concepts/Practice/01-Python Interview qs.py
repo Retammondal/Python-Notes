@@ -1619,3 +1619,67 @@ for i in range(len(array)-1):
     else:
         current = 0
 print(count)
+
+print("----------------------41-----------------------")
+# --------------------------------------------------------------------------------------------
+# Find the Middle Element of an Array
+# Example: [11,22,33,44,55]
+# Output: 33
+# Only Numbers
+# --------------------------------------------------------------------------------------------
+# First I have to check array is Even numbered or, Odd Numbered
+array = [11,22,33,44,55]
+def mid_element(array):
+    if not array:                       # If array is null...return prematurely
+        return None
+
+    mid_index = (len(array)//2)
+
+    if len(array)%2 != 0:               # Odd Numbered --> mid will be single
+        return array[mid_index]
+    else:
+        mid_index1 = (len(array)//2) - 1
+        mid_avg = round((array[mid_index1] + array[mid_index])/2,2)
+        return mid_avg
+
+print(mid_element(array))
+print(mid_element([11,22,33.56,44,55,66]))
+print(mid_element([11]))
+print(mid_element([]))
+
+print("----------------------42-----------------------")
+# --------------------------------------------------------------------------------------------
+# Find the Median of an Array
+# [The median is the middle number in a sorted list of values.]
+# Example: [4,7,3,1,10,12]
+# Output: 4+7/2 = 5.5
+# --------------------------------------------------------------------------------------------
+# Same thing just sort the array before passing in mid_element
+array = [4,7,3,1,10]
+array.sort()            # Change the array in position
+array1 = [4,7,3,1,10,12]
+array1.sort()           
+print(mid_element(array))
+print(mid_element(array1))
+
+string = "competitive programming"
+pattern = "progras"
+print(True if pattern in string else False)
+
+print("----------------------43-----------------------")
+# --------------------------------------------------------------------------------------------
+# Move all negative numbers to the beginning
+# Problem: Rearrange an array so that all negative numbers appear before all non-negative numbers.
+# The relative order of elements need to be preserved.
+# Example: [3, -1, 4, -2, 0]
+# Output: [-1, -2, 3, 4, 0]
+# --------------------------------------------------------------------------------------------
+# Method 1 :
+array = [3, -1, 4, -2, 0]
+negative_list = [item for item in array if item<0]
+positive_list = [item for item in array if item>=0]
+print(negative_list)
+print(positive_list)
+final_list = [*positive_list, *negative_list]
+final_list = negative_list + positive_list
+print(final_list)
