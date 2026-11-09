@@ -1683,3 +1683,163 @@ print(positive_list)
 final_list = [*positive_list, *negative_list]
 final_list = negative_list + positive_list
 print(final_list)
+
+print("----------------------44-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Problem: Return the common elements, including repeated occurrences.
+# Each occurrence can be used only as many times as it appears in both arrays.
+# Example: A = [1, 2, 2, 3], B = [2, 2, 4] -> [2, 2]
+# --------------------------------------------------------------------------------------------
+# Method : ❌ Wrong!!
+A = [1, 2, 2, 3]
+B = [2, 2, 4]
+common = []
+for x in A:
+    if x in B:
+        common.append(x)
+print(common)
+# Why Wrong ? -- [1,2,2] and [2] => still ans will be [2,2] but it should [2]
+
+# ---------------------------------------------------
+# * Method 1 : Two Pointer Approach   
+A = [4, 9, 5, 4, 4, 9]                      # Output : [4, 4, 9, 9]
+B = [9, 4, 9, 8, 4]
+
+A.sort()
+B.sort()
+# after sorting we will check one after one
+i,j = 0,0
+result = []
+
+while i<len(A) and j<len(B):
+    if A[i] == B[j]:
+        result.append(A[i])
+        i += 1
+        j += 1
+    elif B[j] > A[i]:
+        i += 1
+    elif A[i] > B[j]:
+        j += 1
+print(result)
+
+# ---------------------------------------------------
+# * Method 2 : Frequency Dictionary
+from collections import Counter
+# * What Counter does?
+# Automatically maps elements to their occurrence counts
+A = [4, 9, 5, 4, 4, 9]                      # Output : [4, 4, 9, 9]
+B = [9, 4, 9, 8, 4]
+
+freq = Counter(A)           # {1:1, 2:2, 3:1}
+result = []
+
+for x in B:
+    if freq[x] > 0:
+        result.append(x)
+        freq[x] -= 1
+print(result)
+
+# METHOD 1: Two Pointers (After Sorting)
+# Logic: Sort both arrays and compare elements using two pointers.
+# If equal, add to result and move both pointers.
+# Otherwise, move the pointer with the smaller value.
+
+# METHOD 2: Frequency Dictionary (Counter)
+# Logic: Store frequencies of A using Counter.
+# Traverse B, add an element if its frequency is > 0, then decrease its count.
+# Recommended: Faster without sorting.
+
+print("----------------------45-----------------------")
+# --------------------------------------------------------------------------------------------
+# Problem: Find the element that occurs more than n / 2 times. (n = total no. of element)
+# Assume such an element is guaranteed to exist.
+# Example: [3, 2, 3, 3, 1]
+# Output: 3
+# --------------------------------------------------------------------------------------------
+array = [3, 2, 3, 3, 1]
+freq = Counter(array)
+ans = -1            # Initialization
+
+for k in freq:
+    if freq[k] > len(array)/2:
+        ans = k
+print(ans)
+
+# ? Can an Array contain more than one element with such condition -- NO!
+
+# ------------------------------------------
+# Mentos Method -- Mathematical Method
+# Asm such an element exist must...--> in sorted middle index element will be must that
+array = [3, 2, 3, 3, 1]
+array.sort()
+
+print(array[len(array) // 2])
+
+print("----------------------46-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Problem: Given a sorted array of distinct integers and a target,
+# return its index if found.
+# Otherwise, return the index where it should be inserted to maintain sorted order.
+# Example: arr = [1, 3, 5, 6], target = 2 → 1
+# --------------------------------------------------------------------------------------------
+# We know array is already sorted..
+# --------------------------------------
+# Method 1 :
+arr = [1, 3, 5, 6]
+target = 2
+def find_index(arr,target):
+    for i in range(len(arr)):
+        if arr[i] == target:
+            return i
+        elif arr[i] > target:
+            # arr.insert(i,target)
+            # print(arr)
+            return i
+print(find_index(arr,target))
+# --------------------------------------
+# * Method 2 : Binary Search
+# Core Purpose = Finding a specific value/boundary in sorted space
+# How pointer move = One pointer jumps to middle in each step
+# Problem: Search Insert Position (LeetCode 35)
+# Goal: Return target index if found, else return insertion index to preserve sort order.
+
+arr = [1, 3, 5, 6]
+target = 2
+
+# Search boundaries: 'left' and 'right' define the active candidate window [left, right]
+left, right = 0, len(arr) - 1
+
+while left <= right:
+    # 1. Pick the midpoint to split search space in half
+    mid = (left + right) // 2
+
+    if arr[mid] == target:
+        # Exact match found -> this is trivially the answer
+        print(mid)
+        break
+
+    elif arr[mid] < target:
+        # All values from 'left' up to 'mid' are strictly smaller than target.
+        # Therefore, target MUST belong somewhere to the right of 'mid'.
+        # Discard the left half:
+        left = mid + 1
+
+    elif arr[mid] > target:
+        # All values from 'mid' up to 'right' are strictly larger than target.
+        # Therefore, target cannot appear at or to the right of 'mid'.
+        # Discard the right half:
+        right = mid - 1
+
+else:
+    # --- CORE THINKING / THE "AHA" MOMENT ---
+    # When target is absent, the loop terminates only when 'left' crosses 'right' (left == right + 1).
+    #
+    # At this stopping point:
+    # 1. Everything at index <= right is strictly smaller than target.
+    # 2. Everything at index >= left  is strictly greater than target.
+    #
+    # Therefore, 'left' points to the very first element strictly greater than target,
+    # which is the exact slot where target must be inserted!
+    print(left)
