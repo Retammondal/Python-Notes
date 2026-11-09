@@ -6,18 +6,31 @@
 #    - `^` is the Bitwise XOR (Exclusive OR) operator.
 #    - It performs XOR between the operands and reassigns the result in-place to `a`.
 #
-# 2. XOR Truth Table (Element by Element):
-#    - Returns 1 if bits are DIFFERENT, and 0 if bits are the SAME:
+# 2. Bitwise Mechanism vs. Common Misconception:
+#    - MISCONCEPTION: Thinking `a ^ b` is a boolean comparison ("they are different, so return 1").
+#    - REALITY      : `^` evaluates numbers BIT-BY-BIT across corresponding binary columns.
+#                     Comparing two different multi-bit numbers produces a new multi-bit integer,
+#                     NOT just 1 (e.g., 6 ^ 3 = 5, not 1).
+#
+#    - XOR Truth Table (evaluated on EACH individual bit position):
 #        0 ^ 0 -> 0
-#        1 ^ 1 -> 0
-#        0 ^ 1 -> 1
-#        1 ^ 0 -> 1
+#        1 ^ 1 -> 0  (identical bits cancel out)
+#        0 ^ 1 -> 1  (differing bits stay 1)
+#        1 ^ 0 -> 1  (differing bits stay 1)
 #
 # 3. Essential Mathematical Properties of XOR:
-#    - Self-Inverse  : x ^ x = 0        (Any number XORed with itself cancels out)
-#    - Identity      : x ^ 0 = x        (XOR with 0 leaves the number unchanged)
-#    - Commutative   : a ^ b = b ^ a
+#    - Self-Inverse  : x ^ x = 0         (Any number XORed with itself cancels out completely)
+#    - Identity      : x ^ 0 = x         (XOR with 0 leaves all bits unchanged)
+#    - Commutative   : a ^ b = b ^ a     (Order of operations does not matter)
 #    - Associative   : (a ^ b) ^ c = a ^ (b ^ c)
+#
+#    * Key Takeaway for Accumulation:
+#      Because of Associativity and Commutativity, a chain of XORs:
+#        a ^ b ^ c ^ d ^ a ^ b ^ c
+#      can be regrouped as:
+#        (a ^ a) ^ (b ^ b) ^ (c ^ c) ^ d = 0 ^ 0 ^ 0 ^ d = d
+#      Intermediate values look like mixed/random integers, but any duplicate value
+#      flips its constituent bits twice, restoring those bits back to 0.
 #
 # 4. In Sets:
 #    - When used on Python `set` objects, `^=` performs in-place Symmetric Difference
@@ -30,7 +43,12 @@
 a = 6   # Binary: 110
 b = 3   # Binary: 011
 
-a ^= b  # Binary: 110 ^ 011 = 101 (Decimal: 5)
+# Column comparison:
+#   1 1 0  (6)
+# ^ 0 1 1  (3)
+# -------
+#   1 0 1  (5 in decimal, NOT 1)
+a ^= b
 print("Result of 6 ^= 3:", a)  # Output: 5
 
 
@@ -83,11 +101,11 @@ print(f"Swapped values: x = {x}, y = {y}")  # Output: x = 20, y = 10
 
 
 # =========================================================================================
-# Use Case 4 - In-Place Symmetric Difference on Sets
+# Use Case 4: In-Place Symmetric Difference on Sets
 # =========================================================================================
 # In mathematics and set theory:
-#   - Union (|)              : All items in A or B
-#   - Intersection (&)       : Only items in BOTH A and B
+#   - Union (|)               : All items in A or B
+#   - Intersection (&)        : Only items in BOTH A and B
 #   - Symmetric Difference (^): Items in A OR B, but NOT in BOTH (cancels shared items)
 #
 # Just like XOR on numbers cancels out identical bits (1 ^ 1 = 0),

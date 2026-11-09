@@ -1843,3 +1843,220 @@ else:
     # Therefore, 'left' points to the very first element strictly greater than target,
     # which is the exact slot where target must be inserted!
     print(left)
+
+
+print("----------------------47-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Problem: String t is created by adding one character to string s
+# and rearranging the characters. Find the added character.
+# Example: s = "abcd", t = "abcde"
+# Output: 'e'
+# --------------------------------------------------------------------------------------------
+s = 'abcd'
+t = 'abcde'
+
+answer = 0
+
+for ch in s:
+    answer = answer ^ ord(ch)
+for ch in t:
+    answer = answer ^ ord(ch)
+
+print(answer)
+print(chr(answer))
+
+# ------------------------------------------------------------------------------
+# TRACE TABLE (Under the Hood):
+# ------------------------------------------------------------------------------
+# ord('a') = 97, ord('b') = 98, ord('c') = 99, ord('d') = 100, ord('e') = 101
+#
+# Initial: answer = 0
+# Loop s:
+#   ^ 97  -> 97
+#   ^ 98  -> 97 ^ 98
+#   ^ 99  -> 97 ^ 98 ^ 99
+#   ^ 100 -> 97 ^ 98 ^ 99 ^ 100
+#
+# Loop t:
+#   ^ 97  -> (97 ^ 97) cancels to 0  -> 98 ^ 99 ^ 100
+#   ^ 98  -> (98 ^ 98) cancels to 0  -> 99 ^ 100
+#   ^ 99  -> (99 ^ 99) cancels to 0  -> 100
+#   ^ 100 -> (100 ^ 100) cancels to 0 -> 0
+#   ^ 101 -> 0 ^ 101 = 101
+#
+# Final result: chr(101) -> 'e'
+# ==============================================================================
+
+print("----------------------48-----------------------")
+# --------------------------------------------------------------------------------------------
+# Problem: Determine whether all characters of string s appear in string t in the same order,
+# though not necessarily consecutively.
+# Example: s = "ace", t = "abcde"
+# Output:
+# --------------------------------------------------------------------------------------------
+s = 'ac'
+t = 'abcde'
+# * Substring vs Subsequence : What's the Difference?
+# Substring --> Continuous Charecter in Order
+# Subsequence --> Characters in relative order, gaps allowed.
+# Substring Checking --> we know we use 'in' operator
+# * Every Substring is a Subsequence but Every Subsequence may not be Substring
+
+i,j = 0,0
+
+while i<len(s) and j<len(t):
+    if s[i] == t[j]:
+        i += 1
+    j += 1
+print(True if i == len(s) else False)
+
+print("----------------------49-----------------------")
+# --------------------------------------------------------------------------------------------
+# Problem: Given a sentence, reverse the order of its words.
+# Remove extra spaces between words and at the ends.
+# Example: "the sky is blue"
+# Output:
+# --------------------------------------------------------------------------------------------
+sentence = "the sky is blue"
+sentenceArr = sentence.split()
+# finalArr = sentenceArr[::-1]
+sentenceArr.reverse()               #* Reverse the Array in place
+final_sentence = " ".join(sentenceArr)
+print(final_sentence)
+
+print("----------------------50-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI : Though I Did myself but Good Question
+# Problem: Two strings are isomorphic
+# if each character in the first string consistently maps
+# to one character in the second string,
+# and two different characters cannot map to the same character.
+# Example: "egg" and "add" -> true
+# --------------------------------------------------------------------------------------------
+# METHOD 1 : Single Dictionary (One Way Mapping)
+str1 = 'egg'
+str2 = 'add'
+def isomorphic_check(str1,str2):
+    map_dic = {}    
+    is_isomorphic = True    
+
+    if len(str1) != len(str2):              # If two string length diff..by default it False
+        is_isomorphic = False
+
+    for x,y in zip(str1,str2):
+        if x not in map_dic:
+            if y in map_dic.values():
+                is_isomorphic = False
+                break
+            map_dic[x] = y
+        elif x in map_dic:
+            if y != map_dic[x]:
+                is_isomorphic = False
+                break
+    return is_isomorphic
+
+print(isomorphic_check(str1,str2))
+
+# --------------------------------------------------
+# METHOD 2 : Double Dictionary
+str1 = 'egg'
+str2 = 'add'
+def isomorphic_check(str1,str2):
+    map_dic1 = {}    
+    map_dic2 = {}    
+    is_isomorphic = True  
+
+    if len(str1) != len(str2):              # If two string length diff..by default it False
+        is_isomorphic = False
+
+    for x,y in zip(str1,str2):
+        if x in map_dic1 and map_dic1[x] != y:
+            is_isomorphic = False
+            break
+        if y in map_dic2 and map_dic2[y] != x:
+            is_isomorphic = False
+            break
+        map_dic1[x] = y
+        map_dic2[y] = x
+    return is_isomorphic
+
+# METHOD 1: Single Dictionary (One-Way Mapping)
+# Logic: Map each character in str1 to str2.
+# Check existing mappings for consistency and prevent duplicate mapped values.
+# Time: O(n²) | Space: O(k)
+# Limitation: Checking map_dic.values() takes O(k) time per new character.
+
+# METHOD 2: Two Dictionaries (Bidirectional Mapping)
+# Logic: Maintain mappings in both directions.
+# Check that neither character has an inconsistent existing mapping.
+# Time: O(n) average | Space: O(k)
+# Recommended: Faster lookup using two hash maps.
+
+
+print("----------------------51-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI (Method 2 is good POV)
+# Problem: Given two lowercase strings, calculate how many character additions or removals
+# are required to make their character frequencies equal.
+# Each insertion or deletion changes one character.
+#
+# Example: s = "abc", t = "aab" -> 2
+#
+# Explanation: One a must be added to s, one c removed,
+# and one b count adjusted? More precisely,
+# abc has counts a:1, b:1, c:1; aab has a:2, b:1.
+# The total absolute frequency difference is |1-2| + |1-1| + |1-0| = 2.
+# --------------------------------------------------------------------------------------------
+s = 'abc'
+t = 'aab'
+
+def freq_diff(str1,str2):
+    str1_count = Counter(str1)
+    str2_count = Counter(str2)
+    diff = 0
+    
+    for x in str1_count:
+        if x in str2_count:
+            diff += abs(str1_count[x] - str2_count[x])
+            print(diff)
+            continue
+        diff += abs(str1_count[x] - 0)
+
+    for y in str2_count:
+        if (y not in str1_count):
+            diff += abs(str2_count[y] - 0)
+    print(diff)
+        
+freq_diff(s,t)
+
+# -----------------------------------------------------
+# METHOD 2 :
+s = 'abc'
+t = 'aab'
+freq = [0] * 26
+
+for ch in s:
+    freq[ord(ch)-ord('a')] += 1
+for ch in t:
+    freq[ord(ch)-ord('a')] -= 1
+print(freq) 
+# +ve -> more in 1st
+# -ve -> more in 2nd
+# 0   -> gets cancels out
+
+operations = 0
+for count in freq:
+    operations += abs(count)
+print(operations)
+
+# METHOD 1: Frequency Dictionary (Counter)
+# Logic: Count frequencies in both strings and calculate absolute differences.
+# Time: O(n + m) average | Space: O(k)
+# Best for: Understanding frequency comparison using dictionaries.
+
+# METHOD 2: Frequency Array (26 Characters)
+# Logic: Increment counts for s and decrement counts for t.
+# Sum the absolute values of all frequency differences.
+# Time: O(n + m) | Space: O(1)
+# Recommended: Efficient for lowercase English letters only.
