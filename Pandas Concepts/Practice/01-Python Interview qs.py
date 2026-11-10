@@ -2060,3 +2060,368 @@ print(operations)
 # Sum the absolute values of all frequency differences.
 # Time: O(n + m) | Space: O(1)
 # Recommended: Efficient for lowercase English letters only.
+
+print("----------------------52-----------------------")
+# --------------------------------------------------------------------------------------------
+# * Important
+# Given an integer array, return the third distinct maximum number.
+# If the third distinct maximum does not exist, return the largest number
+#
+# Input:
+# [5, 2, 4, 1, 3]
+#
+# Output: 3
+# --------------------------------------------------------------------------------------------
+
+array = [5, 2, 4, 1, 3]
+unique = sorted(set(array),reverse=True)
+# *Set may be look like sorted but actually they are not..so make sort
+# * Note : Sorted will auto convert SET --> LIST
+print(unique)                   # [5, 4, 3, 2, 1]
+
+third_max = None
+if len(unique) < 3:
+    third_max = unique[0]
+else:
+    third_max = unique[2]
+print(third_max)
+
+print("----------------------53-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Given an array of integers and an integer K,
+# select any K elements such that the difference between
+# the maximum and minimum selected elements is as small as possible.
+#
+# Return this minimum difference.
+#
+# Input:
+# nums = [9, 4, 1, 7]
+# k = 2
+# --------------------------------------------------------------------------------------------
+nums = [9, 4, 1, 7]
+k = 2
+# We will be need to get all type of combinations from that array of 2
+# Problem is if it's 3/4/... it will be Complex
+
+def minimum_diff(nums,k):
+    if k == 1:
+        return 0
+    nums.sort()
+    answer = float('inf')       # taken to calculate minimum
+
+    for i in range(len(nums) - k + 1):
+        # We will loop throgh each now..
+        # We will not loop to last k elements
+        # +1 b/c range not takes last to consider the last also
+        difference = nums[i+k-1] - nums[i]
+        answer = min(answer,difference)
+    return answer
+print(minimum_diff(nums,k))
+print(minimum_diff(nums,3))
+
+
+# METHOD : Sorting + Sliding Window
+# Logic: Sort the array and check every consecutive window of size K.
+# Difference = last element - first element.
+# Update the minimum difference.
+# Time: O(n log n) | Space: O(1) auxiliary (excluding sorting).
+# Recommended: Efficient and avoids generating combinations.
+
+# * Mathematical
+# For a fixed set of selected elements, the difference we care about is only max - min.
+# After sorting, the best selection of K elements 
+# can always be taken as a consecutive block of length K.
+
+print("----------------------54-----------------------")
+# --------------------------------------------------------------------------------------------
+# Given a positive integer N, find an integer X such that:
+# - Sum of all integers from 1 to X equals the sum of all integers from X to N.
+#
+# Return X. If no such integer exists, return -1.
+#
+# Input:
+# N = 8
+# --------------------------------------------------------------------------------------------
+del sum                 # * Why ? b/c somehow i used sum as a variable to delete it
+
+# METHOD 1 :
+N = 8
+def func_sum(N):
+    rangeToN = list(range(1,N+1))
+    for i in range(N):
+        # print(sum(rangeToN[:i+1]))
+        # print(sum(rangeToN[i:]))
+        if sum(rangeToN[:i+1]) == sum(rangeToN[i:]):
+            return i+1
+    return -1
+
+print(func_sum(8))
+
+# ---------------------------------------------------
+# METHOD 2 :
+# Mathematical Thinking
+# Sum of first n Natural numbers : n(n+1)/2
+def pivot_int(n):
+    total = n*(n+1)//2
+    for i in range(1,n+1):
+        left = i*(i+1)//2
+        right = total-left+i
+        if left == right:
+            return i
+    return -1
+
+print(pivot_int(8))
+
+print("----------------------55-----------------------")
+# --------------------------------------------------------------------------------------------
+# * Important
+# There are several chips placed at different positions on a number line.
+#
+# You can move a chip:
+# - By 2 positions at a cost of 0.
+# - By 1 position at a cost of 1.
+# Find the minimum total cost required to move all chips to the same position.
+#
+# Input:
+# position = [1, 2, 3]
+# Output: 0+1 = 1
+# --------------------------------------------------------------------------------------------
+# Odd --> odd position pe lane pe 0 Effort
+# Even --> even position pe lane pe 0 Effort
+# Even - Odd or, Odd - Even lane pe 1 Cost
+
+position = [1,2,3]
+even_count = 0
+odd_count = 0
+for i in position:
+    if (i % 2) == 0:
+        even_count += 1
+    else:
+        odd_count += 1
+print(even_count, odd_count)
+total_cost = min(even_count, odd_count)
+print(total_cost)
+# NOte : The cost must be min(even_count, odd_count) because you can choose to move
+# all chips to either an even position or an odd position, whichever is cheaper.
+
+print("----------------------56-----------------------")
+# --------------------------------------------------------------------------------------------
+# Given a positive integer N, repeatedly perform the following operation:
+# - If N is even, divide it by 2.
+# - If N is odd, subtract 1 from it.
+# Return the number of operations required to make N equal to zero.
+# --------------------------------------------------------------------------------------------
+def operation_zero(integer):
+    operations = 0
+    while integer > 0:
+        if integer % 2 == 0:            # Even Number
+            integer = integer/2
+            operations += 1
+        else:
+            integer -= 1
+            operations += 1
+    return operations
+print(operation_zero(14))
+
+print("----------------------57-----------------------")
+# --------------------------------------------------------------------------------------------
+# Given an M x N matrix, return its transpose.
+# The transpose is obtained by converting rows into columns and columns into rows.
+# Note : Use Python Concepts (No Numpy)
+# Input:
+# [
+#  [1, 2, 3],
+#  [4, 5, 6]
+# ]
+#
+# Output:
+# --------------------------------------------------------------------------------------------
+matrix = [
+ [1, 2, 3],
+ [4, 5, 6]
+]
+
+def transpose_matrix(matrix):
+    # rows = len(matrix)
+    cols = len(matrix[0])
+
+    transposed_matrix = []
+    for i in range(cols):
+        row = []
+        for elem in matrix:
+            row.append(elem[i])
+        transposed_matrix.append(row)
+    return transposed_matrix
+
+print(transpose_matrix(matrix))
+
+print("----------------------58-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Given an array of lowercase strings, find all characters that appear in every string.
+# If a character appears multiple times in every string, include it that many times in the result.
+#
+# Input:
+# ["bella", "label", "roller"]
+#
+# Output: ['e', 'l', 'l']
+# --------------------------------------------------------------------------------------------
+def common_characters(words):
+    result = []
+    for ch in set(words[0]):            # ? WHy set imp? b/c we will get to know for each individual character
+        minimum_count = min(word.count(ch) for word in words)
+        for i in range(minimum_count):
+            result.append(ch)
+        # append no of repeated ch to Result
+    return result
+print(common_characters(["bella", "label", "roller"]))
+
+print("----------------------59-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI (Binary Search)
+# Suppose there are N software versions numbered from 1 to N.#
+# Once a version becomes bad, all subsequent versions are also bad.
+# Given a function isBadVersion(version) that tells whether a version is bad,
+# find the first bad version using the minimum number of checks.
+#
+# ip: n=5, firstbad = 4
+# op:
+# --------------------------------------------------------------------------------------------
+def first_bad_version_check(n,first_bad):
+    def isBadVersion(version):
+        return version >= first_bad             # Return True or False
+    # Minimum Number of Checks --> This is the main thing
+    # Binary Search
+    # as they are sorted [False,False,....,True,True]   # True - Bad Version
+    left = 1
+    right = n
+
+    while left < right:
+        mid = left + (right - left)//2
+        if isBadVersion(mid):
+            right = mid
+        else:
+            left = mid + 1
+    return left
+
+print(first_bad_version_check(5,4))
+
+print("----------------------60-----------------------")
+# --------------------------------------------------------------------------------------------
+# *VVI (Binary Search with Exponential Range)
+# You are given a sorted array and a target value. Find the target's index.
+#
+# Instead of immediately searching the entire array,
+# first identify a search range by repeatedly doubling the range size,
+# then apply binary search.
+#
+# Return -1 if the target does not exist.
+#
+# Input:
+# arr = [2, 4, 6, 8, 10, 12, 14]
+# target = 10
+#
+# Output:
+# --------------------------------------------------------------------------------------------
+arr = [2, 4, 6, 8, 10, 12, 14]
+target = 10
+
+# Method 1 : Binary Search
+def find_target_index(array,target):
+    left = 0
+    right = len(array)-1
+    while left <= right:
+        mid = (right+left)//2
+        if array[mid] == target:
+            return mid
+        elif array[mid] < target:
+            left = mid + 1
+        elif array[mid] > target:
+            right = mid - 1
+    return -1
+print(find_target_index(arr,target))
+
+# Method 2 :
+
+def find_target_index(array,target):
+    left = 0
+    right = 1               # taking it without len(array) -1
+
+    while right < len(array) and array[right] <target:
+        left = right + 1
+        right = right * 2
+    
+    right = min(right,len(arr) - 1)
+
+    while left <= right:
+        mid = (right+left)//2
+        if array[mid] == target:
+            return mid
+        elif array[mid] < target:
+            left = mid + 1
+        elif array[mid] > target:
+            right = mid - 1
+    return -1
+print(find_target_index(arr,target))
+
+# METHOD 1: Binary Search (Direct Search)
+# Logic: Search the entire sorted array by repeatedly dividing the range in half.
+# Best for: Standard searching in a sorted array.
+
+# METHOD 2: Exponential Search (Range Doubling + Binary Search)
+# Logic:
+# 1. Start with range [0, 1].
+# 2. Double the right index until the target range is found.
+# 3. Apply binary search within the identified range.
+# Best for: Large or unbounded sorted arrays.
+
+# CONCLUSION:
+# Method 1: Direct binary search.
+# Method 2: First identifies a smaller search range, then applies binary search.
+
+print("----------------------61-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI (Recursion)
+# Given a positive integer N,
+# generate all possible binary strings of length N.
+# Each position can contain either 0 or 1.
+# Input:
+# N = 2
+# Output:
+# --------------------------------------------------------------------------------------------
+# We have n lenght where every length can have 2 maximum possibilities
+# total permutaions can be = 2x2x2x... = 2^n
+def generate_binary(n):
+    result = []
+    def backtrack(current):
+        if len(current) == n:
+            result.append(current)
+            return
+        backtrack(current + "0")
+        backtrack(current + "1")
+    backtrack("")
+    return result
+print(generate_binary(2))
+print(generate_binary(5))
+
+# RECURSION TREE VISUALIZATION: generate_binary(2)
+# -------------------------------------------------------------------
+# Each non-leaf node evaluates its left child ("0") first, then its right child ("1").
+#
+#                               backtrack("")
+#                            ------------------
+#                           /                  \
+#                     ("0")/                    \("1")
+#                         /                      \
+#                  backtrack("0")              backtrack("1")
+#                  /           \                /           \
+#            ("0")/       ("1") \         ("0")/        ("1")\
+#                /               \            /               \
+#         backtrack("00")  backtrack("01")  backtrack("10")  backtrack("11")
+#              |                |                |                |
+#         len == 2         len == 2         len == 2         len == 2
+#         append "00"      append "01"      append "10"      append "11"
+#
+# Total calls: 7 calls (1 root + 2 internal + 4 leaves)
+# Output array: ["00", "01", "10", "11"]
