@@ -2425,3 +2425,34 @@ print(generate_binary(5))
 #
 # Total calls: 7 calls (1 root + 2 internal + 4 leaves)
 # Output array: ["00", "01", "10", "11"]
+
+print("----------------------62-----------------------")
+# --------------------------------------------------------------------------------------------
+# You are selling lemonade for ₹5 per glass.
+# Customers pay using ₹5, ₹10, or ₹20 notes. Each customer buys exactly one glass.
+# Initially, you have no change.
+# Determine whether you can provide the correct change to every customer in the given order.
+# Input:
+# bills = [5, 5, 5, 10, 20]
+# Output:
+# True
+# --------------------------------------------------------------------------------------------
+def haveChange(bills):
+    change_have = 0
+    for x in bills:
+        if x == 5:
+            change_have += x
+        else:
+            need_to_return = x - 5
+            # print(need_to_return)
+            # print(change_have)
+            if need_to_return <= change_have:
+                change_have -= need_to_return
+            else:
+                return False
+    return True
+print(haveChange([5, 5, 5, 10]))
+print(haveChange([5, 5, 5, 10, 20,30]))
+
+# ❌ Wrong Method ? Why? We are counting 5 notes only but we can also pay with 10 notes
+# HW -->
