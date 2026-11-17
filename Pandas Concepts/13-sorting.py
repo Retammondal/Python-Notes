@@ -87,3 +87,87 @@ print(df_sorted)               # Sort by Age, then by Name Alphabetically.
 df_sorted = df.sort_values(by='Age', ignore_index=True)
                                # Reset the index during the sort operation 
                                # using ignore_index=True.
+
+
+# ==================================================
+# STABLE VS UNSTABLE SORTING (kind parameter)
+# ==================================================
+# In pandas, stable sorting keeps rows with equal sort values in their original relative order,
+# while unstable sorting may scramble the relative order of those ties
+
+# Feature              | Unstable Sorting          | Stable Sorting
+# ---------------------|---------------------------|---------------------------
+# Algorithms           | Quicksort, Heapsort       | Mergesort, Timsort
+# Tied Values          | May change original order | Preserves original order
+# Pandas Default       | quicksort (single column) | Stable sort when explicitly selected 
+#                                                    + For Multiple Column
+# Memory Usage         | Generally lower           | Generally higher (Mergesort)
+
+# Syntax :
+# kind="quicksort" (default) --> Unstable; 
+#     ="stable"              --> Stable
+
+# Note: Multi-column Exception: for multi column pandas ignores kind parameter and use Stable
+
+import pandas as pd
+
+df = pd.DataFrame({
+    "Name": ["Alice", "Bob", "Charlie", "David"],
+    "Department": ["Sales", "HR", "Sales", "HR"]
+})
+
+# Stable sort: Alice stays before Charlie; Bob stays before David
+stable_df = df.sort_values(by="Department", kind="stable")
+
+# Unstable sort: Charlie might appear before Alice on large datasets
+unstable_df = df.sort_values(by="Department", kind="quicksort")
+
+print(stable_df)
+print(unstable_df)
+
+# ==================================================
+# Sorting by Index Labels (df.sort_index())
+# ==================================================
+# 1. Purpose:
+#    - Sorts a DataFrame or Series by its ROW index labels (axis=0) or COLUMN names (axis=1),
+#      rather than by the data values inside columns (which is done by df.sort_values()).
+#
+# 2. Syntax:
+#    df.sort_index(
+#        axis=0,              # 0 = sort rows by index | 1 = sort columns alphabetically
+#        ascending=True,      # True = A-Z / 0-9 | False = Z-A / 9-0
+#        kind='quicksort',    # Sorting algorithm: 'quicksort', 'mergesort', 'stable'
+#        na_position='last',  # Where to put NaN index labels: 'first' or 'last'
+#        ignore_index=False   # True = resets resulting index to clean 0, 1, 2...
+#    )
+# -----------------------------------------------------------------------------------------
+
+import pandas as pd
+
+# Sample DataFrame with scrambled row index and unsorted column names
+df = pd.DataFrame(
+    {
+        "Math":    [88, 92, 79, 95],
+        "English": [85, 90, 82, 91],
+        "Biology": [91, 87, 84, 89]
+    },
+    index=[103, 101, 104, 102]
+)
+
+print("Original DataFrame (Unsorted Index & Columns):")
+print(df)
+
+# -----------------------------------------------------------------------------------------
+# 1. Sort Rows by Index (Default: axis=0, ascending=True)
+# Orders rows cleanly as 101 -> 102 -> 103 -> 104
+row_sorted = df.sort_index()
+print("\nSorted by Row Index (Ascending):")
+print(row_sorted)
+
+# -----------------------------------------------------------------------------------------
+# 2. Sort Columns Alphabetically (axis=1)
+# Orders columns as Biology -> English -> Math
+col_sorted = df.sort_index(axis=1)
+print("\nSorted by Column Names (axis=1):")
+print(col_sorted)
+

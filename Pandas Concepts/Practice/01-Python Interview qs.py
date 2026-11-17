@@ -2451,8 +2451,199 @@ def haveChange(bills):
             else:
                 return False
     return True
-print(haveChange([5, 5, 5, 10]))
-print(haveChange([5, 5, 5, 10, 20,30]))
+# print(haveChange([5, 5, 5, 10]))
+# print(haveChange([5, 5, 5, 10, 20,30]))
 
 # ❌ Wrong Method ? Why? We are counting 5 notes only but we can also pay with 10 notes
-# HW -->
+# --------------------------------------------------------
+# Method :
+# First I have to count how much notes we have right now
+def haveChange(bills):
+    change_have = {5: 0, 10: 0, 20: 0}
+    for x in bills:
+        if x == 5:
+            change_have[5] += 1
+        elif x == 10:
+            # We can only give return with 5 rupees
+            if change_have[5] < 1:
+                return False
+            change_have[5] -= 1
+            change_have[10] += 1
+        elif x == 20:
+            if change_have[10] >= 1 and change_have[5] >= 1:
+                change_have[10] -= 1
+                change_have[5] -= 1
+                change_have[20] += 1
+            elif change_have[5] >= 3:
+                change_have[5] -= 3
+                change_have[20] += 1
+            else:
+                return False
+    return True
+
+print(haveChange([5, 5, 5, 10, 20]))
+print(haveChange([5, 5, 5, 10, 20, 20]))
+print(haveChange([5, 5, 5, 5, 10, 20, 20]))
+
+print("----------------------63-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Problem statement: Given an integer array and an integer k,
+# find the contiguous subarray of length k having the maximum average.
+# Return the maximum average.
+#
+# Input: nums = [1, 12, -5, -6, 50, 3], k = 4
+# --------------------------------------------------------------------------------------------
+# Method 1 :
+nums = [1, 12, -5, -6, 50, 3]
+k = 4
+max_avg = float('-inf')
+for i in range(len(nums)-(k-1)):
+    avg = np.mean(nums[i:i+k])
+    if avg > max_avg:
+        max_avg = avg
+print(max_avg)
+
+# Method 2 :
+nums = [1, 12, -5, -6, 50, 3]
+k = 4
+def max_avg(nums,k):
+    max_sum = float('-inf')
+    for i in range(len(nums)-(k-1)):
+        current_sum = sum(nums[i:i+k])
+        if current_sum > max_sum:
+            max_sum = current_sum
+    return max_sum/k
+print(max_avg(nums,k))
+
+# Problem : Current solution has time complexity O(n × k) 
+# because sum() recalculates the sum of every subarray.
+# We can optimize it to O(n) using the Sliding Window technique.
+
+# * Method 3 : Sliding Window
+def max_avg(nums,k):
+    current_sum = max_sum = sum(nums[:k])
+    for i in range(k, len(nums)):
+        current_sum += nums[i]
+        current_sum -= nums[i-k]
+        if current_sum > max_sum:
+            max_sum = current_sum
+    return max_sum/k
+print(max_avg(nums,k))
+
+# METHOD 1: Using NumPy mean()
+# Logic: Calculate the average of every subarray using np.mean().
+# Time: O(n × k) | Space: O(k) for slicing
+
+# METHOD 2: Using sum()
+# Logic: Calculate the sum of every window, then divide the maximum sum by k.
+# Time: O(n × k) | Space: O(k) for slicing
+
+# METHOD 3: Sliding Window
+# Logic: Calculate the first window sum, then add the incoming
+# element and subtract the outgoing element.
+# Time: O(n) | Space: O(1)
+
+# CONCLUSION:
+# Method 3 is optimal because it avoids recalculating the sum
+# of overlapping subarrays.
+
+print("----------------------64-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI : Variable Size Sliding Window.
+# ! Doubt
+# Problem statement:
+# Given an array of positive integers and a target average T,
+# find the length of the smallest contiguous subarray whose average is at least T.
+# Return 0 if no such subarray exists.
+# Input: nums = [2, 3, 1, 2, 4, 3], T = 3
+# ans = 
+# --------------------------------------------------------------------------------------------
+
+def find_small_array(nums, T):
+
+    left = 0                  # Starting boundary of the sliding window
+    total = 0                 # Sum of elements inside the current window
+    ans = float('inf')        # Store the minimum valid window length
+
+    for right in range(len(nums)):
+
+        total += nums[right]  # Expand the window by adding the new element
+
+        # Check whether the current window average is >= T.
+        # Average = total / window_length
+        # Instead of division, use multiplication:
+        # total >= T * window_length
+
+        while left <= right and total >= T:
+
+            # Current window satisfies the condition.
+            # Update the minimum window length.
+            ans = min(ans, right - left + 1)
+
+            # Try to make the window smaller by removing
+            # the leftmost element.
+            total -= nums[left]
+            left += 1
+
+    # If no valid window was found, return 0.
+    # Otherwise, return the smallest valid window length.
+    return 0 if ans == float('inf') else ans
+
+
+print(find_small_array([2, 3, 1, 2, 4, 3], 3))
+print(find_small_array([2, 3, 1, 2, 4, 3], 5))
+print(find_small_array([2, 3, 1, 2, 4, 3], 2))
+
+print("----------------------65-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# ! Not Understood
+# Problem statement: Given a string, find the length of the longest substring
+# that contains no repeated characters.
+#
+# Input: s = "abcabcbb"
+# Output:
+# --------------------------------------------------------------------------------------------
+def longest_unique_substring(string):
+
+    seen = set()       # Stores the characters currently present in the window
+    left = 0            # Starting index of the sliding window
+    ans = 0             # Stores the maximum length of a valid substring
+
+    for right in range(len(string)):
+
+        # If the current character already exists in the window,
+        # shrink the window from the left until the duplicate is removed.
+        while string[right] in seen:
+            seen.remove(string[left])  # Remove the leftmost character from the set
+            left += 1                  # Move the left boundary forward
+
+        # Add the current character because it is now unique in the window.
+        seen.add(string[right])
+
+        # Calculate the current window length and update the maximum.
+        ans = max(ans, right - left + 1)
+
+    return ans
+
+
+# Example
+s = "abcabcbb"
+print(longest_unique_substring(s))  # Output: 3
+
+print("----------------------66-----------------------")
+# --------------------------------------------------------------------------------------------
+# Problem statement: Given a sentence,
+# reverse every individual word without changing the order of the words.
+#
+# Input: s = "Hello World Python"
+# Output:
+# --------------------------------------------------------------------------------------------
+sent = "Hello World Python"
+sent_arr = sent.split()
+sent_arr_rev = []
+for word in sent_arr:
+    sent_arr_rev.append(word[::-1])
+final_sent = " ".join(sent_arr_rev)
+print(final_sent)
