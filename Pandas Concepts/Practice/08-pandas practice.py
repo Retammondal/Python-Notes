@@ -1,44 +1,80 @@
-import numpy as np
 import pandas as pd
 
-students = pd.DataFrame({
-    "Name": ["A", "B", "C", "D", "E"],
-    "Maths": [80, np.nan, 70, 90, np.nan],
-    "Science": [np.nan, 75, 85, 90, 80],
-    "English": [70, 80, np.nan, 95, 85]
+print("#########################################################\n")
+products = pd.DataFrame({
+"Product": ["Laptop", "Mouse", "Keyboard", "Monitor", "Webcam"],
+"Category": ["Electronics", "Accessories", "Accessories",
+"Electronics", "Accessories"],
+"Price": [55000, 700, 1500, 12000, 2500],
+"Stock": [10, 100, 50, 15, 25]
 })
 
-# Questions :
-# Display the dataset.
-# Find the missing-value positions.
-# Count missing values in each subject.
-# Count all missing cells.
-# Calculate missing percentages.
-# Display only students whose Maths marks are missing.
+print(products)
 
-print(students)
-print(students.isnull())
-print(students.isnull().sum())
-missing_perc = students.isnull().sum().sum() * 100 / students.size
-print(missing_perc)
-print(students[students["Maths"].isnull()])
+print("==========================================================")
+# Q1 : Products costing < 2000 and fewer than 20 units
+condition = (products["Price"]<3000) & (products["Stock"]<60)
+result = products[condition]
+print(result)
 
-# -----------------------------------------------------------------------
-import numpy as np
+# Q2 : Create a new column with the total inventory amount for each product
+products["Total Amount"] = products["Price"] * products["Stock"]
+print(products)
+
+# Q3 : What is the % contribution of each product to the overall inventory amount?
+total_inventory_amount = products["Total Amount"].sum()         
+products["% Contr."] = (products["Total Amount"]*100/total_inventory_amount).round(2)
+print(products)
+
+# Q4 : Select product and stock columns for low-stock products (<20 stock)
+filter_products = products[products["Stock"]<20]
+print(filter_products[["Product", "Stock"]])
+# OR,
+filter_products = products.loc[products["Stock"]<20, ["Product", "Stock"]]
+print(filter_products)
+
+print("#########################################################\n")
 import pandas as pd
+import numpy as np
 
-
-df = pd.DataFrame({
-    "Student": ["Amit", "Neha", "Ravi", "Priya", "Karan"],
-    "Branch": ["CSE", "ECE", "CSE", "ECE", "CSE"],
-    "Marks": [90, 85, 80, 95, 85]
+sales = pd.DataFrame({
+    "Product": ["Laptop", "Mouse", "Monitor", "Keyboard", "Printer"],
+    "Quantity": [5, 20, 4, 10, 3],
+    "Unit_Price": [50000, 800, 12000, 1500, 18000],
+    "Cost": [220000, 10000, 40000, 10000, 45000]
 })
 
-# Quest : Sort it on base of Branch then break the tie on basis of lower marks first
-df_sort = df.sort_values(by=["Branch","Marks"])
-print(df_sort)
-# Quest : Same but Branch Alphabetically; Marks High to Low within each branch
-# Branch alphabetically - ascending, marks high to low - descending
-df_sort = df.sort_values(by=["Branch","Marks"], ascending=[True,False])
-print(df_sort)
+print(sales)
+
+print("==========================================================")
+# Q1 : Calculate revenue and profit for each product.
+# then classify products as High Profit if profit>=9000; otherwise Standard Profit
+sales["Revenue"] = sales["Quantity"] * sales["Unit_Price"]
+sales["Profit"] = sales["Revenue"] - sales["Cost"]
+condition = sales["Profit"]>=9000
+sales["Classify"] = np.where(condition, "High Profit", "Standard Profit")
+
+print(sales)
+
+print("#########################################################\n")
+data = pd.DataFrame({
+    " Product Name ": [" Laptop ", "Mouse  ", " Monitor"],
+    " UNIT PRICE ": [50000, 800, 12000],
+    "Quantity Sold": [2, 10, 3],
+    "Supplier_Contact": ["9876500001", "9876500002", "9876500003"]
+})
+
+print("==========================================================")
+# Problem:
+# Standardize column names, remove unnecessary columns, trim extra spaces from text,
+# and calculate a new numeric column.
+columns = data.columns.str.strip().str.title()
+print(columns)
+
+# for i in range(len(columns)):
+#     columns[i] = columns[i].strip().capitalize()
+
+data.columns = columns
+print(data)
+
 
