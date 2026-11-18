@@ -42,3 +42,32 @@ print(df_sort)
 df_sort = df.sort_values(by=["Branch","Marks"], ascending=[True,False])
 print(df_sort)
 
+# ================================================================================
+data = pd.DataFrame({
+    "student": ["Alice", "Bob", "Charlie", "David", "Eva", "Frank"],
+    "marks":   [88,      95,    91,        95,      84,    91],
+    "bonus":   [2,       1,     5,         4,       3,     2]
+})
+
+# Question : Least Scoring 3 Students without using nsmallest
+# Method 1 :
+data_sort = data.sort_values(by="marks")
+print(data_sort)
+print(data_sort.head(3))
+
+# Method 2 :
+data_small = data.nsmallest(3, columns="marks")
+print(data_small)
+
+# ================================================================================
+employees = pd.DataFrame({
+    "Name": ["Amit", "Neha", "Ravi", "Priya", "Karan"],
+    "Salary": [50000, 70000, 70000, 60000, 80000],
+    "Experience": [2, 3, 5, 4, 2]
+})
+
+# Question : Top 3 employees based on salary and experience (First on Salary --> then on Experience)
+top_employees = employees.nlargest(3,columns=["Salary","Experience"])
+print(top_employees)
+
+

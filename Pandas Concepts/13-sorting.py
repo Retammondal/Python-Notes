@@ -171,3 +171,63 @@ col_sorted = df.sort_index(axis=1)
 print("\nSorted by Column Names (axis=1):")
 print(col_sorted)
 
+# ==================================================
+# Concept : Selecting Top N Rows Efficiently 
+# with df.nlargest() (and df.nsmallest())
+# ==================================================
+# Note : Although we can also do with sorting + head 
+# 1. Purpose:
+#    - Returns the first `n` rows ordered by `columns` in descending order (largest first).
+#    - Equivalent to `df.sort_values(columns, ascending=False).head(n)`, but significantly
+#      faster and more memory-efficient because it avoids sorting the entire DataFrame.
+#
+# 2. Syntax:
+#    df.nlargest(n, columns, keep='first')
+#
+# 3. Parameters:
+#    - `n`       : Number of rows to return (int).
+#    - `columns` : Column label or list of column labels to order by (must be numeric/datetime).
+#                  When a list is passed, subsequent columns act as tie-breakers.
+#    - `keep`    : How to handle duplicate/tied values at the cutoff boundary:
+#        * 'first' (default) : Prioritizes the first occurrence in original DataFrame order.
+#        * 'last'            : Prioritizes the last occurrence.
+#        * 'all'             : Keeps all ties, even if the returned row count exceeds `n`.
+# -----------------------------------------------------------------------------------------
+
+import pandas as pd
+
+df = pd.DataFrame({
+    "student": ["Alice", "Bob", "Charlie", "David", "Eva", "Frank"],
+    "marks":   [88,      95,    91,        95,      84,    91],
+    "bonus":   [2,       1,     5,         4,       3,     2]
+})
+
+# -----------------------------------------------------------------------------------------
+# 1. Basic Usage: Get Top 3 Students by Marks
+# Bob and David tie at 95; Charlie and Frank tie at 91 -> 'first' keeps Charlie over Frank
+top_3 = df.nlargest(3, columns="marks")
+print("Top 3 by Marks (keep='first'):")
+print(top_3)
+
+# -----------------------------------------------------------------------------------------
+# 2. Handling Ties at the Cutoff with keep='all'
+# Returns 4 rows instead of 3 because Charlie and Frank both have 91
+top_3_all_ties = df.nlargest(3, columns="marks", keep="all")
+print("\nTop 3 Including All Ties (keep='all'):")
+print(top_3_all_ties)
+
+# -----------------------------------------------------------------------------------------
+# 3. Tie-Breaking with Multiple Columns
+# Sort by 'marks' descending first; if marks are equal, break ties using 'bonus' descending
+top_3_tiebreak = df.nlargest(3, columns=["marks", "bonus"])
+print("\nTop 3 with 'bonus' as Tie-Breaker:")
+print(top_3_tiebreak)
+
+# -----------------------------------------------------------------------------------------
+# 4. Companion Method: df.nsmallest()
+# Same syntax and parameters, but retrieves the smallest `n` rows
+bottom_2 = df.nsmallest(2, columns="marks")
+print("\nBottom 2 by Marks:")
+print(bottom_2)
+
+
