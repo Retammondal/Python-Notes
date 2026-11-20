@@ -71,3 +71,42 @@ top_employees = employees.nlargest(3,columns=["Salary","Experience"])
 print(top_employees)
 
 
+# ================================================================================
+print("----------------------5---------------------------")
+df = pd.DataFrame({
+    "Student": ["Amit", "Neha", "Ravi", "Priya", "Karan"],
+    "Marks": [85, 95, 75, 90, 80]
+})
+
+# Ques : Sort them on basis of marks
+df_sort = df.sort_values(by="Marks")
+print(df_sort)
+
+# Ques : Dont change the order just give the rank based on Marks
+df["Rank"] = df["Marks"].rank()                     # Will give rank ascending (lowest -> highest)
+df["Rank"] = df["Marks"].rank(ascending=False)      # Now give (Highest -> Lowest)
+print(df)
+
+# ================================================================================
+print("----------------------6---------------------------")
+df = pd.DataFrame({
+    "Student": ["Amit", "Neha", "Ravi", "Priya", "Karan"],
+    "Marks": [90, 95, 90, 85, 80]
+})
+
+# Ques : Perform Ranking on this data where Marks are same?
+df["Avg Rank"] = df["Marks"].rank()
+# Method Average (Default) => if rank is coming 2,3 --> asign both 2.5
+
+df["Min Rank"] = df["Marks"].rank(method='min')
+# Method Min => min position will given to all + skip the rest position
+
+df["Max Rank"] = df["Marks"].rank(method='max')
+# Method Max => max position will given to all + skip the rest position
+
+df["First Rank"] = df["Marks"].rank(method='first')
+# Method First => If tied gives rank based on First Appearance
+
+df["Dense Rank"] = df["Marks"].rank(method="dense")
+# Method Dense => Assign both same rank + start next rank from next
+print(df)

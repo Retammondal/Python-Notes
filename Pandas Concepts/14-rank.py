@@ -41,6 +41,9 @@ print(df)
 #    - 'first'             : Ranks assigned in order of appearance       -> [1.0, 2.0, 3.0, 4.0]
 #    - 'dense'             : Like 'min', but no gaps in rank numbers     -> [1.0, 2.0, 2.0, 3.0]
 # -----------------------------------------------------------------------------------------
+# * Note : Why Ranking comes in Float?
+# As in Tie-Break it takes default Average --> so it always use float
+
 
 import pandas as pd
 import numpy as np

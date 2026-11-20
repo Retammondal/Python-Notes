@@ -257,3 +257,302 @@ print(find_min_binary([3, 4, 5, 1, 2]))
 print(find_min_binary([1, 2, 3, 4, 5]))
 print(find_min_binary([2, 3, 4, 5, 1]))
 print(find_min_binary([2]))
+
+print("----------------------5-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Problem: Given a sorted array where every element appears exactly twice
+# except one element, find the element that appears only once.
+#
+# 1- brute force
+# 2- optimal algo
+# --------------------------------------------------------------------------------------------
+
+# Method 1 :
+# Will Count all the occurances
+# Object.items() --> will iterate through it if last one = 1 , give 1st one
+from collections import Counter
+nums = [1,1,2,3,3,4,4,8,8]
+count = Counter(nums)
+result = None
+
+for item,occurance in count.items():
+    if occurance == 1:
+        result = item
+        break
+print(result)
+
+# -----------------------------------------------------------------------
+# * Method 2 : Binary Search (Optimised)
+# If all elem are twice twice --> it should be even no of array
+# IF any one occurs one --> it should be odd no of array
+def single_non_duplicate(nums):
+    left = 0
+    right = len(nums) - 1
+
+    while left < right:
+        mid = (left+right) // 2
+                                # Snap mid to an EVEN index so we always inspect the start of a pair.
+                                # Before the single element, every valid pair sits at (even, odd).
+        if mid % 2 == 1:
+            mid -= 1
+
+                                # If nums[mid] matches nums[mid + 1], the pairing is still intact up to here.
+                                # That means the single element hasn't disrupted the order yet -> search right.
+        if nums[mid] == nums[mid+1]:            # [1,1,2,2,3,4,4] --> elem is right side
+            left = mid + 2
+
+                                # The (even, odd) pairing is broken. Either nums[mid] IS the answer,
+                                # or the single element appeared earlier -> keep mid and search left.
+        else:
+            right = mid
+    return nums[left]
+# ! Problem : Why mid%2 == 1 imp? mid will always come even?
+# No!! Mid index will not always come even..
+
+print(single_non_duplicate([1, 1, 2, 2, 3, 4, 4]))             # --> mid = 3 (odd) => here mid-1 imp!
+print(single_non_duplicate([1, 1, 2, 2, 3, 3, 4, 4, 8]))       # --> mid = 4 (even)
+
+print("----------------------6-----------------------")
+# --------------------------------------------------------------------------------------------
+# Problem: Given three sorted arrays, return all elements that appear in all three arrays.
+#
+# arr1 = [1, 2, 3, 4, 5]
+# arr2 = [1, 2, 5, 7, 9]
+# arr3 = [1, 3, 4, 5, 8]
+#
+# Output:
+# --------------------------------------------------------------------------------------------
+# Method 1 :
+def common_elements(a,b,c):
+    i = j = k = 0
+    result = []
+
+    while i < len(a) and j < len(b) and k < len(c):
+        if a[i] == b[j] == c[k]:
+            result.append(a[i])
+            i, j, k = i + 1, j + 1, k + 1
+        elif a[i] <= b[j] and a[i] <= c[k]:
+            i += 1
+        elif b[j] <= a[i] and b[j] <= c[k]:
+            j += 1
+        else:
+            k += 1
+    return result
+print(common_elements(
+    [1, 2, 3, 4, 5],
+    [1, 2, 5, 7, 9],
+    [1, 3, 4, 5, 8]
+))
+
+# -------------------------------------------------------
+# Method 2 :
+# Simple way is using Set Data Structures
+# Set Intersection : using & operator
+arr1 = [1, 2, 3, 4, 5]
+arr2 = [1, 2, 5, 7, 9]
+arr3 = [1, 3, 4, 5, 8]
+
+result = set(arr1) & set(arr2) & set(arr3)
+print(list(result))
+
+print("----------------------7-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# ! Little Doubt is there..
+# Problem: Given arrival and departure times of trains,
+# find the minimum number of platforms required so that no train has to wait.
+#
+# A platform can be reused when a train departs at the same time another arrives.
+#
+# Arrival:   [900, 940, 950, 1100, 1500, 1800]
+# Departure: [910, 1200, 1120, 1130, 1900, 2000]
+#
+# Output: 3
+# --------------------------------------------------------------------------------------------
+
+arrival = [900, 940, 950, 1100, 1500, 1800]
+departure = [910, 1200, 1120, 1130, 1900, 2000]
+
+def min_platforms(arrival, departure):
+    arrival = sorted(arrival)       # Sort arrival times
+    departure = sorted(departure)   # Sort departure times
+
+    i = 1
+    j = 0                       # Two pointers for arrival and departure
+
+    current_platform = 1            # Currently occupied platforms (Minimum = 1)
+    max_platform = 1                # Maximum platforms occupied at once (Minimum = 1)
+
+    while i < len(arrival) and j < len(departure):
+
+                                        # Previous one still not left, new One came -> Platform Added
+        if arrival[i] < departure[j]:
+            current_platform += 1
+            i += 1
+
+                                        # Next one came after previous one left.. 
+        else:
+            current_platform -= 1
+            j += 1
+
+                                        # Track the maximum platforms needed
+        max_platform = max(max_platform, current_platform)
+
+    return max_platform
+
+print(min_platforms(arrival, departure))  # Output: 3
+
+print("----------------------8-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Problem: You start with a score of 1. You can either:
+# - Double the current score.
+# - Increase the current score by 1.
+# Given a target, find the minimum number of moves required to reach it.
+#
+#
+# target = 10
+# --------------------------------------------------------------------------------------------
+# Going Forward : First double if doubling not get target + 1
+# ❌ Wrong? Why? Rather than that if we +1 then double --> moves are more minimum
+def min_moves(score, target):
+    moves = 0
+    while score < target:
+        if (score * 2) < target:
+            score = score * 2
+            moves += 1
+        else:
+            score += 1
+            moves += 1
+    return (score,moves)
+print(min_moves(1,10))
+
+# ✅ Correct Method : Reverse Greedy Approach
+# Come Backward
+# If target is odd -1 ; even / 2
+# If target drops below score*2 => doubling is not possible directly give (target-score)
+def min_moves(score,target):
+    moves = 0
+    while target > score:
+        # First case if target becomes less than score * 2
+        if target < (score * 2):
+            moves += target - score
+            break
+        
+        if target % 2 == 0:                 # Target is even
+            target //= 2
+        else:                               # Target is odd
+            target -= 1
+        moves += 1
+    return moves
+print(min_moves(1,10))
+print(min_moves(1,1))
+print(min_moves(1,15))
+print(min_moves(0,10))
+
+print("----------------------9-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Problem: Given an integer array,
+# find the maximum product possible by multiplying any three elements.
+# Use Mathematical Logic
+#
+# Input: nums = [1, 2, 3, 4]
+# Output: 24
+# --------------------------------------------------------------------------------------------
+# Mathematical Logic : Product of 3 largest element but it will fail if both +/- numbers are present
+# [-10,-10,1,2,3] --> 1*2*3 ❌ --> -10*-10*3 ✅
+
+# Two Ways 
+# 1. Product of the 3 largest element
+# 2. Sorting -> max(product of last 3 element or, product of smallest 2 and largest 1)
+def max_product_3(arr):
+    arr.sort()
+    largest_products = 1
+    for n in arr[-3:]:
+        largest_products *= n
+
+    large_smallest_products = arr[0]*arr[1]*arr[-1]
+
+    return max(largest_products, large_smallest_products)
+print(max_product_3([1, 2, 3, 4]))
+print(max_product_3([-10,-10,1,2,3]))
+
+print("----------------------10-----------------------")
+# --------------------------------------------------------------------------------------------
+# *VVI
+# Problem: You are given an array representing card values.
+# You can pick exactly k cards from either the beginning or the end.
+# Find the maximum possible score (sum of the values).
+#
+# Input: cardPoints = [1, 2, 3, 4, 5, 6, 1], k = 3
+# Output: 12
+# --------------------------------------------------------------------------------------------
+# Wrong Thinking : I was think either first 3 or, last 3 ❌
+# We can take both...
+# We will get sum of first 3...then gradually remove one and add last one..and check max
+def max_score(cardPoints, k):
+    current_sum = sum(cardPoints[:k])
+    max_sum = current_sum
+
+    for i in range(1,k+1):
+        current_sum -= cardPoints[k-i]
+        current_sum += cardPoints[-i]
+
+        max_sum = max(max_sum, current_sum)
+    return max_sum
+
+print(max_score([1, 2, 3, 4, 5, 6, 1], 3))
+
+print("----------------------11-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Problem: Given an integer array,
+# count the number of pairs (i, j) such that i < j and nums[i] == nums[j].
+#
+# Input: nums = [1, 2, 3, 1, 1, 3]
+# Output: 4
+# Indices : (0,3) (0,4) (3,4) (2,5)
+# --------------------------------------------------------------------------------------------
+
+# Method 1 : 2 Loops (Basic Method)
+nums = [1, 2, 3, 1, 1, 3]
+count = 0
+for i in range(len(nums)):
+    for j in range(i+1,len(nums)):
+        if nums[i] == nums[j]:
+            count += 1
+print(count)
+
+# -----------------------------------------
+# * Method 2 :
+# Here we need identical element later on...doesn't mean with positions
+# * Good Pairs:
+# A good pair is formed by choosing any two elements having equal values.
+# 1,1,1
+# How many good pairs can be formed ? -- 2 ❌ 3 ✅
+
+# * Formula:
+# Among n equal elements, the number of possible good pairs is:
+# n * (n - 1) // 2
+
+# Steps :
+# First store the count of same identical element...when the identicality finishes count good pairs
+def num_identical_pairs(nums):
+    nums.sort()
+
+    pairs = 0
+    count = 1                                   # Will count identical elem 
+
+    for i in range(1,len(nums)):
+        if nums[i] == nums[i-1]:                # If elems are identical add in count
+            count += 1
+        else:                                   # When the identicality ends, count the pairs
+            pairs += count * (count - 1) // 2
+            count = 1
+    
+    pairs += count * (count - 1) // 2           # Why? -- if count is in last
+
+    return pairs
+print(num_identical_pairs([1, 2, 3, 1, 1, 3]))
