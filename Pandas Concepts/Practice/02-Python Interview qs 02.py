@@ -786,3 +786,130 @@ print(repeating_substring("abcabc"))      # Yes (abc x 2)
 print(repeating_substring("aba"))         # No
 print(repeating_substring("a"))           # No
 print(repeating_substring("abcab"))       # No
+
+
+print("----------------------15-----------------------")
+# --------------------------------------------------------------------------------------------
+# *VVI (First Method done by me...very nice...2nd step is also good)
+# Problem: Given an array, find the length of the longest contiguous subarray
+# whose first and last elements are equal.
+#
+# Input:
+# [1, 2, 3, 1, 4, 1]
+#
+# Output:
+# --------------------------------------------------------------------------------------------
+# First of all i need to check which is repeating element...because to be equal they must be > 1
+# What if i directly store the index values of repeating element
+# Method 1 : 
+# First collected all the indices of every element --> get max of last and first presence
+def long_subarray(nums):
+    all_elem = {}                                   # Map each number to a list of its indices
+
+                                                    # Collect all indices for every element
+    for i in range(len(nums)):
+        if nums[i] not in all_elem:
+            all_elem[nums[i]] = [i]
+        else:
+            all_elem[nums[i]].append(i)
+
+    max_len = 0
+
+                                                    # Calculate the longest span between 
+                                                    # the first and last index of each number
+    for i in all_elem.values():
+        max_len = max(max_len, max(i) - min(i) + 1)
+
+    return max_len
+
+print(long_subarray([1, 2, 3, 1, 4, 1]))  # Output: 6
+
+# * Method 2 :
+def long_subarray(nums):
+    first_index = {}                            # Store the first index where each value appears
+    max_len = 0
+
+    for i, value in enumerate(nums):            # Loop with both index and value
+                                                # Record the index only the first time we see this value
+        if value not in first_index:
+            first_index[value] = i
+
+                                                # Update max_len using the distance from the first occurrence to now
+        max_len = max(
+            max_len,
+            i - first_index[value] + 1
+        )
+
+    return max_len
+
+print(long_subarray([1, 2, 3, 1, 4, 1]))  # Output: 6
+
+# METHOD 1: Using Dictionary of Indices
+# Logic: Store all occurrence indices of each element, then find
+# the maximum distance between its first and last occurrence.
+# Time: O(n) | Space: O(n)
+
+# METHOD 2: Using First Occurrence Dictionary
+# Logic: Store only the first index of each element. Whenever
+# the element appears again, calculate the subarray length.
+# Time: O(n) average | Space: O(n)
+
+print("----------------------16-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Problem: Given a binary array containing only 0 and 1,
+# find the minimum number of swaps needed to bring all the 1s together.
+#
+# Input: [1, 0, 1, 0, 1]
+# Output: 1
+# --------------------------------------------------------------------------------------------
+# I am taking a window of maximum no of 1 Count and sliding that window
+# gettig max sum of that window --> at last total count - max sum => min swap
+def min_swaps(arr):
+    ones = arr.count(1)                 # No. of 1 Count
+
+    if ones <= 1:                       # if 1 count is less than or equal to 1 -- No swap needed
+        return 0
+    else:
+        current_ones = sum(arr[:ones])          # Window of 1 count lenght
+        max_ones = current_ones
+
+        for i in range(ones,len(arr)):
+            current_ones += arr[i] - arr[i-ones]
+            max_ones = max(max_ones, current_ones)
+    
+    return ones-max_ones
+    
+print(min_swaps([1, 0, 1, 0, 1]))
+print(min_swaps([1, 0, 1, 0, 1, 0, 1]))
+print(min_swaps([1, 1,1,0,0,0,0,0,0,0,0]))
+
+print("----------------------17-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI (Almost done by me, but had to do little correction)
+# Problem: Find the length of the longest contiguous subarray
+# in which positive and negative numbers alternate.
+# Zero is neither positive nor negative and breaks the sequence.
+#
+# Input:
+# [1, -2, 3, -4, -5, 6]
+# Output: 4
+# --------------------------------------------------------------------------------------------
+def longest_alternate(arr):
+    current_streak = 0
+    max_streak = current_streak
+    for i in range(len(arr)):
+        if arr[i] == 0:                 # IF it becomes zero streak has to be zero
+            current_streak = 0
+        elif i>0 and arr[i]*arr[i-1] < 0:
+            current_streak += 1
+        else:
+            current_streak = 1          # For non zero element streak will start from 1
+        max_streak = max(max_streak, current_streak)
+
+    return max_streak
+print(longest_alternate([1, -2, 3, -4, -5, 6]))
+
+# ? Problem : Have to follow if 0 is coming streak will be 0; 
+# ? [0] -> 0 
+# ? [1] -> 1 (Non Zero streak will be 1)
