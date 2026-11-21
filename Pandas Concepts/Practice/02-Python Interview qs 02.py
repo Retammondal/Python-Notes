@@ -556,3 +556,233 @@ def num_identical_pairs(nums):
 
     return pairs
 print(num_identical_pairs([1, 2, 3, 1, 1, 3]))
+
+# 21 Nov 2026
+print("----------------------12-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Sort an array containing only 0s, 1s and 2s without using a built-in sorting function.
+#
+# Example: [2, 0, 2, 1, 1, 0]
+# Output: [0,0,1,1,2,2]
+# Without Sorting --> Linear Complexity
+# --------------------------------------------------------------------------------------------
+# Method 1 : 
+# First Counting no. --> then create a new array by extending
+arr = [2, 0, 2, 1, 1, 0, 1]
+sample_arr = []
+counter = Counter(arr)
+sample_arr.extend([0]*counter[0])
+sample_arr.extend([1]*counter[1])
+sample_arr.extend([2]*counter[2])
+print(sample_arr)
+
+# -------------------------------------------------------------
+# Method 2 :
+# Same Step but adding in same array
+
+index = 0                   # Starting with 0 index; one after one will add and increase this index
+arr = [2, 0, 2, 1, 1, 0, 1]
+counter = Counter(arr)
+for i in range(counter[0]):
+    arr[index] = 0
+    index += 1
+for i in range(counter[1]):
+    arr[index] = 1
+    index += 1
+for i in range(counter[2]):
+    arr[index] = 2
+    index += 1
+print(arr)
+# * Note : Is here Loop is 3 times? - NO! it's one time on the array if you observe -- Linear Complexity
+# ? But wait....Counter -- this will also be count as an Iteration -- ❌ Linear Complexity
+
+# -------------------------------------------------------------
+# * Method 3 : 1 Iteration : Dutch National Flag Algorithm (Three Pointers)
+# Idea -> 
+# Maintain 4 zones:
+# [ 0 ... low-1 ] = 0s
+# [ low...mid-1 ] = 1s
+# [ mid...high ] => Unknown (To be checked)
+# [ high=1 ... ] = 2s
+def sort_array(nums):
+    low = 0
+    mid = 0
+    high = len(nums) - 1
+
+    # keep going untill the unknown zone is empty
+    while mid <= high:
+        if nums[mid] == 0:
+            # make the low index = 0 but what about the value of that low --> need to again check in mid
+            nums[low], nums[mid] = nums[mid], nums[low]         # Swapping value to recheck
+            low += 1
+            mid += 1
+        elif nums[mid] == 1:                    # 1 belongs in the middle, so leave it and move on
+            mid += 1
+        else:                                   # if == 2
+                                                            # Why to swap?
+                                                            # i will swap that last value now last value need to check
+            nums[mid], nums[high] = nums[high], nums[mid]
+            high -= 1
+    return nums
+print(sort_array([2, 0, 2, 1, 1, 0, 1]))
+
+# METHOD 1: Using Counter + Extra Array
+# Logic: Count occurrences of 0, 1 and 2, then extend a new array
+# with the required number of each element.
+# Time: O(n) | Space: O(n)
+
+# METHOD 2: Using Counter + In-Place Overwriting
+# Logic: Count occurrences, then overwrite the original array
+# with all 0s, followed by 1s and 2s.
+# Time: O(n) | Space: O(1) auxiliary space
+
+# METHOD 3: Dutch National Flag Algorithm (Three Pointers)
+# Logic: Maintain three pointers (low, mid, high) to divide the
+# array into 0s, 1s, 2s and an unknown region. Sort using swaps.
+# Time: O(n) | Space: O(1)
+
+print("----------------------13-----------------------")
+# --------------------------------------------------------------------------------------------
+# Given an array of length n containing values from 1 to n, find all numbers missing from the array.
+# Duplicates has been created in place of missing contents
+
+# Example: [4, 3, 2, 7, 8, 2, 3, 1]
+# Output: [5,6]
+# --------------------------------------------------------------------------------------------
+# If you remember we have done this question using Sum of n Natural no...
+# But here it's not going to work, as multiple numbers missing
+
+# Method 1 :
+# Create a array from 1-n --> just compare using while loop
+
+# ------------------------------------------------------------------------------
+# Method 2 :
+def find_disappeared(nums):
+    present = set(nums)
+    result = []
+
+    for i in range(1,len(nums)+1):          # going from 1-n each numbers
+        if i not in present:
+            result.append(i)
+    return result
+print(find_disappeared([4, 3, 2, 7, 8, 2, 3, 1]))
+
+# ------------------------------------------------------------------------------
+# Method 3 : (Mentos Zindagi)
+# Using Set
+given_arr = [4, 3, 2, 7, 8, 2, 3, 1]
+given_arr = set(given_arr)
+taken_arr = set(range(1,max(given_arr)+1))
+diff = taken_arr - given_arr
+print(given_arr)
+print(taken_arr)
+print(diff)
+
+# * Note whenever unique occurances waala sawaal came --> Best is Set Data Structures
+
+# METHOD 1: Using Comparison (Brute Force)
+# Logic: Generate numbers from 1 to n and check each number
+# against the original array.
+# Time: O(n²) | Space: O(n) for the result
+
+# METHOD 2: Using Set + Loop
+# Logic: Convert the array into a set for fast lookup, then
+# check which numbers from 1 to n are missing.
+# Time: O(n) average | Space: O(n)
+
+# METHOD 3: Using Set Difference
+# Logic: Create a set containing numbers from 1 to n,
+# then subtract the set of present numbers.
+# Time: O(n) average | Space: O(n)
+
+print("----------------------14-----------------------")
+# --------------------------------------------------------------------------------------------
+# Problem statement: Given a lowercase English string and an integer k,
+# find the maximum number of vowels in any contiguous substring of length k.
+#
+# Input: s = "abciiidef", k = 3
+# Output: 3
+# --------------------------------------------------------------------------------------------
+# Method 1 :
+# We all know...iterating and get max and current
+
+# Method 2 :
+# take a window of k lenght and go one after one and check max vowels within it
+def max_vowels(string,k):
+    vowels = "aeiou"
+
+    current = sum(1 for chr in string[:k] if chr in vowels)         # Window of first k elements
+    max_vowel = current
+
+    for i in range(k, len(string)):
+        if string[i] in vowels:                 # If coming elem is vowel add in current
+            current += 1
+        
+        if string[i-k] in vowels:               # If removing elem was also vowel, remove from current
+            current -= 1
+        
+        max_vowel = max(max_vowel, current)
+    return max_vowel     
+
+print(max_vowels("abciiidef", 3))
+
+print("----------------------15-----------------------")
+# --------------------------------------------------------------------------------------------
+# * VVI
+# Problem statement: Given an array of strings,
+# find the longest suffix shared by all strings.
+# If no common suffix exists, return an empty string.
+#
+# Input: words = ["running", "jogging", "walking"]
+# Output:
+# --------------------------------------------------------------------------------------------
+
+# METHOD : Reverse Strings + Common Prefix
+# Logic: Reverse the first string, then compare it with every
+# other reversed string and keep only the matching prefix.
+# Finally, reverse the remaining prefix to get the common suffix.
+
+def longest_suffix(words):
+    suffix = words[0][::-1]                 # Flipping the words --> To make it Prefix Problem
+    
+    for word in words[1:]:
+        word = word[::-1]                   # Flipping
+        i = 0
+
+                                            # Move forward while inside both words and letters match
+        while i < min(len(suffix),len(word)):
+            if suffix[i] == word[i]:
+                i += 1
+            else:
+                break
+        
+        suffix = suffix[:i]                 # Trim to only the shared matching part
+    return suffix[::-1]
+print(longest_suffix(["running", "jogging", "walking"]))
+
+print("----------------------16-----------------------")
+# --------------------------------------------------------------------------------------------
+# * Did on my own, but Good Question
+# Problem statement: Given a string,
+# determine whether it can be constructed by repeating one of its proper non-empty substrings multiple times
+#
+# Input: s = "abababab"
+# Output: Yes (ab x 2)
+# --------------------------------------------------------------------------------------------
+def repeating_substring(string):
+    n = len(string)
+    for i in range(1, n//2+1):                          # i is the length of substring
+        if n % i == 0:                                  # string len is dividable substring length 
+            substring = string[:i]
+            repeats = n // i
+            if string == substring * repeats:
+                return f"Yes ({substring} x {repeats})"
+    return "No"
+    
+print(repeating_substring("abababab"))    # Yes (ab x 4)
+print(repeating_substring("abab"))        # Yes (ab x 2)
+print(repeating_substring("abcabc"))      # Yes (abc x 2)
+print(repeating_substring("aba"))         # No
+print(repeating_substring("a"))           # No
+print(repeating_substring("abcab"))       # No

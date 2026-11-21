@@ -110,3 +110,54 @@ df["First Rank"] = df["Marks"].rank(method='first')
 df["Dense Rank"] = df["Marks"].rank(method="dense")
 # Method Dense => Assign both same rank + start next rank from next
 print(df)
+
+
+
+# ================================================================================
+print("----------------------7---------------------------")
+data = {
+    "Product": [
+        "Laptop", "Phone", "Tablet", "Mouse", "Keyboard",
+        "Monitor", "Laptop", "Phone", "Mouse", "Monitor",
+    ],
+    "Category": [
+        "Electronics", "Electronics", "Electronics", "Accessories", "Accessories",
+        "Electronics", "Electronics", "Electronics", "Accessories", "Electronics",
+    ],
+    "Salesperson": [
+        "Amit", "Neha", "Ravi", "Amit", "Neha",
+        "Ravi", "Neha", "Amit", "Ravi", "Neha",
+    ],
+    "MRP": [
+        80000, 50000, 30000, 5000, 7000,
+        45000, 90000, 60000, 8000, 45000,
+    ],
+    "Units_Sold": [
+        4, 5, 3, 10, 7,
+        3, 5, 6, 12, 4,
+    ],
+}
+
+df = pd.DataFrame(data)
+print(df)
+
+# Ques : Which products has the highest price? show top 3
+df_top3 = df.nlargest(3, columns="MRP")
+print(df_top3)
+
+# Ques : Which products has the lowest price? show top 5(Without nsmallest)
+df_below3 = df.sort_values(by="MRP").head(5)
+print(df_below3)
+
+# Ques : Find top 3 sale transactions?
+df["Sales"] = df["MRP"] * df["Units_Sold"]
+df_top3_Sales = df.nlargest(3, columns="Sales")
+print(df)
+print(df_top3_Sales)
+
+# Ques : Sort by category and revenue/sales --> category : asc, rev : desc
+df_sorted = df.sort_values(
+    by=["Category", "Sales"], 
+    ascending=[True, False]
+)
+print(df_sorted)
